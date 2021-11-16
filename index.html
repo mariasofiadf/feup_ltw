@@ -25,7 +25,7 @@
                     <a href="#score" class="navbar__links" id="score-board">Score Board</a>
                 </li>
                 <li class = "navbar__btn">
-                    <button class="btn__grad" id="play">Play</button>
+                    <button class="btn__grad" id="play" onclick="">Play</button>
                 </li>
             </ul>
         </div>
@@ -38,7 +38,20 @@
             <button class = "close-btn">&times;</button>
         </div>
         <div class = "conf-body">
-            [Game settings will be here]
+            <ul class = "set-menu">
+                <li class = "menu-item">
+                    <label for="fname">Number of Cavities</label>
+                    <input type = "number" class = "cavities-input"></input>
+                </li>
+                <li class = "menu-item">
+                    <label for="fname">Number of Seeds</label>
+                    <input type = "number" class = "seeds-input"></input>
+                </li>
+                <li class = "menu-item">
+                    <label for="fname">2 players</label>
+                    <input type = "checkbox" class = "seeds-input"></input>
+                </li>
+            </ul>
         </div>
         <!--onother div to darken the background when this popup is oppened-->
     </div>
