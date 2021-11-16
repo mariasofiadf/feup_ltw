@@ -141,4 +141,11 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
 
 .conf-body{
   padding: 10px 15px;
+  
+}
+.set-item{
+  padding: 10px 15px;
+  list-style-type: none;
+  text-align: left;
+  text-decoration: none;
 }
