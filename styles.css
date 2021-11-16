@@ -154,3 +154,46 @@
   text-decoration: none;
 }
 
+/*Rules Popup*/
+
+.rules-popup{
+  position: fixed;
+  display:block;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1);
+  border: 3px solid salmon;
+  border-radius: 10px;
+  z-index: 10; /*Drawn above*/
+  background-color: white;
+  width: 520px;
+  max-width:80% ;
+  transition: 200ms ease-in-out;  
+}
+
+.rules-header{
+  padding: 10px 15px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid salmon;
+}
+
+.rules-header .close-btn{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.rules-body{
+  padding: 10px 15px;
+}
+
+.rules-text{
+  padding: 10px 15px;
+  text-decoration: none;
+  text-align:left;
+}

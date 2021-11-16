@@ -9,3 +9,4 @@ openConf.onclick = function(){
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
 }
+
