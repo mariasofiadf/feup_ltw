@@ -72,7 +72,8 @@
 }
 
 .btn__grad {
-background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
+  cursor: pointer;
+ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
  margin: 10px;
  padding: 10px 45px;
  border: none;
@@ -95,14 +96,17 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
 }
 
 
+ 
+
+
 /* Game Config PopUp*/
 
 .gameconf-popup{
   position: fixed;
-  display:block;
+  display:none;
   top: 50%;
   left:50%;
-  transform: translate(-50%,-50%) scale(0);
+  transform: translate(-50%,-50%) scale(1);
   border: 3px solid salmon;
   border-radius: 10px;
   z-index: 10; /*Drawn above*/
@@ -149,3 +153,4 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
   text-align: left;
   text-decoration: none;
 }
+

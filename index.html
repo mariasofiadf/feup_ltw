@@ -6,7 +6,7 @@
     <meta charset=UTF-8>        <!-- para caracteres acentuados   -->
     <title>Mancala</title> 
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <script>  src = "app.js"</script>
+    <script type="text/javascript" src="app.js" defer></script>
   </head>
   
   <body>
@@ -25,23 +25,23 @@
                     <a href="#score" class="navbar__links" id="score-board">Score Board</a>
                 </li>
                 <li class = "navbar__btn">
-                    <button class="btn__grad" id="play" onclick="">Play</button>
+                    <button class="btn__grad" id="play">Play</button>
                 </li>
             </ul>
         </div>
     </nav>
 
     <!--Game Configuration-->
-    <div  class = "gameconf-popup active" id = "gameConf">
+    <div  class = "gameconf-popup" id = "gameConf">
         <div class = "conf-header">
             <h1>Game Configuration</h1>
-            <button class = "close-btn">&times;</button>
+            <button class = "close-btn" id = "closeConf">&times;</button>
         </div>
         <div class = "conf-body">
             <ul class = "set-menu">
                 <li class = "set-item">
                     <label for="fname">Number of Cavities</label>
-                    <input type = "number" class = "cavities-input"></input>
+                    <input type = "number" class = "cavities-input" min = 1 max = 10></input>
                 </li>
                 <li class = "set-item">
                     <label for="fname">Number of Seeds</label>
@@ -55,7 +55,9 @@
         </div>
         <!--onother div to darken the background when this popup is oppened-->
     </div>
-    
+
+
+
 </body>
 
 
