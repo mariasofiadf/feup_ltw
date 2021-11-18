@@ -16,13 +16,13 @@
             <u class = "navbar__logo">Mancala  </u>
             <ul class = "navbar__menu">
                 <li class = "navbar__item">
-                    <a href="#login" class="navbar__links" id="login">Login</a>
+                    <button class="navbar-btn" id="login">Login</button>
                 </li>
                 <li class = "navbar__item">
-                    <a href="#rules" class="navbar__links" id="rules">Rules</a>
+                    <button class="navbar-btn" id="rules">Rules</button >
                 </li>
                 <li class = "navbar__item">
-                    <a href="#score" class="navbar__links" id="score-board">Score Board</a>
+                    <button class="navbar-btn" id="score-board">Score Board</button>
                 </li>
                 <li class = "navbar__btn">
                     <button class="btn__grad" id="play">Play</button>
@@ -56,10 +56,11 @@
         <!--onother div to darken the background when this popup is oppened-->
     </div>
 
-    <div class = "rules-popup">
+    <!--Rules Popup-->
+    <div class = "rules-popup" id = "rulesPopup">
         <div class = "rules-header">
             <h1>Rules</h1>
-            <button class = "close-btn" id = "closeConf">&times;</button>
+            <button class = "close-btn" id = "closeRules">&times;</button>
         </div>
         <div class = "rules-body">
             <ul class="rules-text">
