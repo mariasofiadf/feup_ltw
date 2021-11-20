@@ -129,7 +129,7 @@
   top: 50%;
   left:50%;
   transform: translate(-50%,-50%) scale(1);
-  border: 3px solid salmon;
+  border: 3px solid #ff6e7f;
   border-radius: 10px;
   z-index: 10; /*Drawn above*/
   background-color: white;
@@ -147,7 +147,7 @@
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid salmon;
+  border-bottom: 3px solid #ff6e7f;
 
 }
 
@@ -184,7 +184,7 @@
   top: 50%;
   left:50%;
   transform: translate(-50%,-50%) scale(1);
-  border: 3px solid salmon;
+  border: 3px solid #ff6e7f;
   border-radius: 10px;
   z-index: 10; /*Drawn above*/
   background-color: white;
@@ -198,7 +198,7 @@
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid salmon;
+  border-bottom: 3px solid #ff6e7f;
 }
 
 .rules-header .close-btn{
@@ -227,16 +227,15 @@
   align-items: center;
   justify-content: center;
   
-
   width: 390px;
   background: rgb(255, 255, 255);
-  border-radius: 10px;
+  border-radius: 20px;
   overflow: hidden;
   padding: 20px 20px;   
 
-  box-shadow: 5px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
 
   transform: scale(0.8) translate(50%, 50%);
 }
@@ -247,7 +246,7 @@
   justify-content: center;
 }
 
-.login100-title {
+.login-title {
   display: block;
   font-size: 30px;
   color: #333333;
@@ -295,4 +294,44 @@
   font-size: 13px;
   color: #333333;
   line-height: 1.5;
+}
+
+/*Score Board*/
+
+.score-popup{
+  position: fixed;
+  display:none;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1);
+  border: 3px solid #ff6e7f;
+  border-radius: 10px;
+  z-index: 10; /*Drawn above*/
+  background-color: white;
+  width: 520px;
+  max-width:80% ;
+  transition: 200ms ease-in-out;  
+}
+
+.score-header{
+  padding: 10px 15px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #ff6e7f ;
+}
+
+.score-header .close-btn{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.score-table, th, td {
+  width: 100%;
+  align-items: center;
+  border:1px solid #ff6e7f ;
 }

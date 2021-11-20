@@ -76,17 +76,17 @@
     <!--LOGIN BOX-->
     <div class="login-wrap">
         <form class="login-container">
-            <div class="login100-title">
+            <div class="login-title">
                 Welcome
             </div>
 
             <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
-                <input class="input" type="text">
+                <input class="input" placeholder="Email" type="text">
                 <!--<span class="focus-input100" data-placeholder="Email"></span>-->
             </div>
 
             <div class="wrap-input" data-validate="Enter password">
-                <input class="input" type="password" name="pass"> 
+                <input class="input" placeholder="Password" type="password" name="pass"> 
                 <!--<span class="focus-input100" data-placeholder="Password"></span>-->
             </div>
 
@@ -107,6 +107,34 @@
             </div>
         </form>
     </div>
+
+    <!--Score Board-->
+    <div class = "score-popup" id = "scorePopup">
+        <div class = "score-header">
+            <h1>Score Board</h1>
+            <button class = "close-btn" id = "closeScore">&times;</button>
+        </div>
+        <div class = "score-body">
+            <table class = "score-table" >
+                <tr class="score-table-header">
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Score</th>
+                </tr>
+                <tr>
+                  <td>Ana Rita Ramada</td>
+                  <td>19 novembro</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>Maria Sofia Figueiredo</td>
+                  <td>19 novembro</td>
+                  <td>19</td>
+                </tr>
+              </table>            
+        </div>
+    </div>
+
 
 </body>
 
