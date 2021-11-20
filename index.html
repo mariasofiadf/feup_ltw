@@ -33,8 +33,6 @@
         </div>
     </nav>
 
-    <input type="number" placeholder="2" id="holes" name="holes"
-       min="2" max="8" onchange="updateBoard()">
 
     <table id = "board">
      </table>
@@ -50,7 +48,7 @@
             <ul class = "set-menu">
                 <li class = "set-item">
                     <label for="fname">Number of Cavities</label>
-                    <input type = "number" class = "cavities-input" min = 1 max = 10></input>
+                    <input type = "number" id="holes" name="holes" class = "cavities-input" onchange="updateBoard()"" min = 2 max = 10></input>
                 </li>
                 <li class = "set-item">
                     <label for="fname">Number of Seeds</label>

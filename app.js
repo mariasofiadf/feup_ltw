@@ -18,19 +18,18 @@ class Board{
     constructor(id, holes){
         const board  = document.getElementById('board');
         for(let r = 0; r<2; r++){
-            let row = document.createElement('tr');
+            let row = document.createElement('tr', id="board_row");
+            let td = document.createElement('td', id ="board_data");
             if(r==0){
-                let td = document.createElement('td');
                 td.rowSpan = 2;
-                row.appendChild(td)
+                row.appendChild(td);
             }
             for(let c = 0; c < holes; c++){
-                row.appendChild(document.createElement('td'))
+                row.appendChild(document.createElement('td'));
             }
             if(r==0){
-                let td = document.createElement('td');
                 td.rowSpan = 2;
-                row.appendChild(td)
+                row.appendChild(td);
             }
             board.appendChild(row);
         }

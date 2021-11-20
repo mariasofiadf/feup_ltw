@@ -394,11 +394,16 @@ table{
   font-weight: bold;
 }
 
-.score-table, th, td {
+.score-table {
   width: 100%;
   align-items:center;
 }
 
+
+.board_row, .board_data{
+  width: 100%;
+  align-items:center;
+}
 
 .board {
   width: 295px;     height: 295px;
