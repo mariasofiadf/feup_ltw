@@ -102,12 +102,38 @@ table{
   transition: all 0.3s ease;
 }
 
-.button{
-  border: none; 
+.navbar-btn{
+  cursor: pointer;
+  background-color:hsl(0, 10%, 6%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:max-content;
+  padding: 20px;
+  text-decoration: none;
+  height: 100%;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 20px;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 60px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
 .btn__grad {
-background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
+  cursor: pointer;
+ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
  margin: 10px;
  padding: 10px 45px;
  border: none;
@@ -133,18 +159,34 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
 /* Game Config PopUp*/
 
 .gameconf-popup{
+  align-items: center;
+  justify-content: center;
   position: fixed;
-  display:block;
-  top: 50%;
-  left:50%;
-  transform: translate(-50%,-50%) scale(0);
-  border: 3px solid salmon;
-  border-radius: 10px;
+  display:none;
+
+  transform: translate(-50%,-50%) scale(1);
   z-index: 10; /*Drawn above*/
-  background-color: white;
   width: 500px;
-  max-width:80% ;
+  top: 50%;
+  left: 50%;
+  max-width: 80%;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
   transition: 200ms ease-in-out;
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+
+}
+
+.bottom-border{
+  border: 0;
+  height: 5px;
+  width: 100%;
+  background-image: -webkit-linear-gradient(right, #ff6e7f 0%, #bfe9ff 50%, #ff6e7f 100%);
 }
 
 .gameconf-popup.active{
@@ -156,7 +198,7 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid salmon;
+  border-bottom-color: linear-gradient(to right,red, purple);
 
 }
 
@@ -185,6 +227,177 @@ background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  1
   text-decoration: none;
 }
 
+/*Rules Popup*/
+
+.rules-popup{
+  position: fixed;
+  display:none;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1);
+  z-index: 10; /*Drawn above*/
+  background-color: white;
+  width: 520px;
+  max-width:80% ;
+  transition: 200ms ease-in-out;  
+
+    
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.rules-header{
+  padding: 10px 15px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rules-header .close-btn{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.rules-body{
+  padding: 10px 15px;
+}
+
+.rules-text{
+  padding: 10px 15px;
+  text-decoration: none;
+  text-align:left;
+}
+
+
+/*LOGIN*/
+
+.login-wrap{
+  align-items: center;
+  justify-content: center;
+  
+  width: 390px;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+
+  transform: scale(0.8) translate(50%, 50%);
+}
+
+.login-container{
+  display: grid;
+  align-items:center;
+  justify-content: center;
+}
+
+.login-title {
+  display: block;
+  font-size: 30px;
+  color: #333333;
+  line-height: 1.5;
+  text-align: center;
+  padding: 10px;
+}
+
+
+.wrap-input{
+  position: center;
+  border-bottom: 2px solid #adadad;
+  margin-bottom: 15px;
+}
+
+.input{
+  font-family: Poppins-Regular;
+  font-size: 15px;
+  color: #555555;
+  line-height: 1.2;
+
+  display: flex;
+  width: 100%;
+  height: 30px;
+  background: transparent;
+  padding: 5px 5px;
+  
+}
+
+.login-btn-container{
+  display: grid;
+  align-items: center;
+}
+
+
+.no-acc-txt {
+  font-family: Poppins-Regular;
+  font-size: 13px;
+  color: #666666;
+  line-height: 1.5;
+}
+
+.sign-up-txt {
+  font-family: Poppins-Regular;
+  font-size: 13px;
+  color: #333333;
+  line-height: 1.5;
+}
+
+/*Score Board*/
+
+.score-popup{
+  position: fixed;
+  display:none;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1);
+  z-index: 10; /*Drawn above*/
+  background-color: white;
+  width: 520px;
+  max-width:80% ;
+  transition: 200ms ease-in-out;  
+
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.score-header{
+  padding: 10px 15px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-header .close-btn{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.score-table, th, td {
+  width: 100%;
+  align-items:center;
+}
 
 
 .board {
