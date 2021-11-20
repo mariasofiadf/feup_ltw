@@ -6,6 +6,29 @@
   scroll-behavior: smooth;
   }
 
+table, tr, td, th{
+  border: 1px solid black;
+}
+
+td{
+  height: 200px;
+  width: 200px;
+}
+
+table{
+  position: fixed;
+  display:block;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border: 3px solid salmon;
+  border-radius: 10px;
+  z-index: 10; /*Drawn above*/
+  background-color: white;
+  max-width:80% ;
+  transition: 200ms ease-in-out;
+}
+
 .navbar{
   background: hsl(0, 10%, 6%) ;
   height: 80px;
@@ -17,7 +40,19 @@
   top: 0;
   z-index: 999; /* Always on top of everything (3D perspective)*/
 }
-
+.board {
+  width: 295px;     height: 295px;
+  background: #228; margin: auto;
+}
+.cell {
+  cursor: pointer;      display: inline-block;
+  width: 95px;          height: 95px;
+  margin-right: 5px;    margin-bottom: 5px;    
+  background: #FAFAFA;  color: orange;
+  font-size: 95px;      font-family: sans-serif;  
+  line-height: 110px;   text-align: center;
+}
+.line { margin-right: 0px !important; }
     .navbar__container{
       display: flex;
       justify-content: space-between;
@@ -363,3 +398,18 @@
   width: 100%;
   align-items:center;
 }
+
+
+.board {
+  width: 295px;     height: 295px;
+  background: #228; margin: auto;
+}
+.cell {
+  cursor: pointer;      display: inline-block;
+  width: 95px;          height: 95px;
+  margin-right: 5px;    margin-bottom: 5px;    
+  background: #FAFAFA;  color: orange;
+  font-size: 95px;      font-family: sans-serif;  
+  line-height: 110px;   text-align: center;
+}
+.line { margin-right: 0px !important; }
