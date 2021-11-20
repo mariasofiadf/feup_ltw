@@ -124,18 +124,34 @@
 /* Game Config PopUp*/
 
 .gameconf-popup{
+  align-items: center;
+  justify-content: center;
   position: fixed;
   display:none;
-  top: 50%;
-  left:50%;
+
   transform: translate(-50%,-50%) scale(1);
-  border: 3px solid #ff6e7f;
-  border-radius: 10px;
   z-index: 10; /*Drawn above*/
-  background-color: white;
   width: 500px;
-  max-width:80% ;
+  top: 50%;
+  left: 50%;
+  max-width: 80%;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
   transition: 200ms ease-in-out;
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+
+}
+
+.bottom-border{
+  border: 0;
+  height: 5px;
+  width: 100%;
+  background-image: -webkit-linear-gradient(right, #ff6e7f 0%, #bfe9ff 50%, #ff6e7f 100%);
 }
 
 .gameconf-popup.active{
@@ -147,7 +163,7 @@
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #ff6e7f;
+  border-bottom-color: linear-gradient(to right,red, purple);
 
 }
 
@@ -184,13 +200,21 @@
   top: 50%;
   left:50%;
   transform: translate(-50%,-50%) scale(1);
-  border: 3px solid #ff6e7f;
-  border-radius: 10px;
   z-index: 10; /*Drawn above*/
   background-color: white;
   width: 520px;
   max-width:80% ;
   transition: 200ms ease-in-out;  
+
+    
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .rules-header{
@@ -198,7 +222,6 @@
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #ff6e7f;
 }
 
 .rules-header .close-btn{
@@ -304,13 +327,20 @@
   top: 50%;
   left:50%;
   transform: translate(-50%,-50%) scale(1);
-  border: 3px solid #ff6e7f;
-  border-radius: 10px;
   z-index: 10; /*Drawn above*/
   background-color: white;
   width: 520px;
   max-width:80% ;
   transition: 200ms ease-in-out;  
+
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px 20px;   
+
+  box-shadow: 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .score-header{
@@ -318,7 +348,6 @@
   display:flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #ff6e7f ;
 }
 
 .score-header .close-btn{
@@ -332,6 +361,5 @@
 
 .score-table, th, td {
   width: 100%;
-  align-items: center;
-  border:1px solid #ff6e7f ;
+  align-items:center;
 }
