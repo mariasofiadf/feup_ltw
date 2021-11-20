@@ -2,7 +2,6 @@
 
 window.onload = function() {
 
-
 }
 
 function updateBoard(){
@@ -35,5 +34,4 @@ class Board{
             board.appendChild(row);
         }
     }
-
 }
