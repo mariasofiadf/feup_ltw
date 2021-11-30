@@ -51,38 +51,16 @@ function updateBoard(){
     const newBoard = new Board("board", holes, seeds);
 }
 
-
-class BoardSide{
-    
-
-    constructor(id, holes, n_seeds, board){
-        this.board = board;
-        
-    }
-
-    buildStore(){
-        this.store = document.createElement('div'); //Store for PLayer1
-        store1.className = "store";
-        board.appendChild(store1);
-        this.store_value = 0;
-    }
-
-    buildCells(holes, n_seeds){
-        for(let i = 0; i < holes;i++){
-            this.cells[i] = n_seeds
-        }
-    }
-
-}
-
 class Board{
     constructor(id, holes, n_seeds){
         const board  = document.getElementById('board'); 
         
         this.buildStore1(board);
 
+        this.buildCells(board, holes, n_seeds);
 
         this.buildStore2(board);
+
     }
 
     buildStore1(board){
@@ -101,35 +79,26 @@ class Board{
         this.store2.innerHTML = this.store_value2;
     }
 
-    buildCells(board){
+    buildCells(board, holes, n_seeds){
         const rows = document.createElement('div');//Container for the rows
         rows.className = "rows";
         board.appendChild(rows);
 
-        let row = document.createElement('div');
-        row.className = "row";
+        for(let r = 0; r<2; r++){ //Create both rows
+            let row = document.createElement('div');
+            row.className = "row";
             
-        for(let c = 0; c < holes; c++){
-            this.cell1[c] =document.createElement('div');
-            this.cell1[c].className = "cell";
-            this.cell1[c].innerHTML = n_seeds;
-            this.cell1_value[c] = n_seeds
-            row.appendChild(this.cell1[c]);
+            for(let c = 0; c < holes; c++){
+                let cell =document.createElement('div');
+                cell.className = "cell";
+                cell.innerHTML = n_seeds;
+
+                row.appendChild(cell);
+
+            }
+
+            rows.appendChild(row);
         }
-        rows.appendChild(row);
-
-        let row = document.createElement('div');
-        row.className = "row";
-            
-        for(let c = 0; c < holes; c++){
-            this.cell2[c] =document.createElement('div');
-            this.cell2[c].className = "cell";
-            this.cell2[c].innerHTML = n_seeds;
-            this.cell2_value[c] = n_seeds
-            row.appendChild(cell);
-
-        }
-
-        rows.appendChild(row);
     }
+
 }
