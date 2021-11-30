@@ -6,9 +6,8 @@
     <meta charset=UTF-8>        <!-- para caracteres acentuados   -->
     <title>Mancala</title> 
     <link rel="stylesheet" href="styles.css" type="text/css">
-
+    <link rel="stylesheet" href="popups.css" type="text/css">
     <script type="text/javascript" src="app.js" defer></script>
-
   </head>
   
   <body>
@@ -17,9 +16,6 @@
         <div class = "navbar__container">
             <u class = "navbar__logo">Mancala  </u>
             <ul class = "navbar__menu">
-                <li class = "navbar__item">
-                    <button class="navbar-btn" id="login">Login</button>
-                </li>
                 <li class = "navbar__item">
                     <button class="navbar-btn" id="rules">Rules</button >
                 </li>
@@ -33,11 +29,46 @@
         </div>
     </nav>
 
+   
 
-    <table id = "board">
-     </table>
+    <div class = "body-container">
+        <div class = "left-side-container">
+                   <!--LOGIN BOX-->
+            <div class="login-wrap">
+                <form class="login-container">
+                    <div class="login-title">Welcome</div>
 
-    <!--Game Configuration-->
+                    <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
+                        <input class="input" placeholder="Email" type="text">
+                        <!--<span class="focus-input100" data-placeholder="Email"></span>-->
+                    </div>
+
+                    <div class="wrap-input" data-validate="Enter password">
+                        <input class="input" placeholder="Password" type="password" name="pass"> 
+                        <!--<span class="focus-input100" data-placeholder="Password"></span>-->
+                    </div>
+
+                    <div class="login-btn-container">
+                            <button class="btn__grad">Login</button>
+                    </div>
+
+                    <div class="login-txt">
+                        <span class="no-acc-txt">Don’t have an account?</span>
+                        <a class="sign-up-txt">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+ 
+
+        <!--BOARD-->
+        <div class = "right-side-container">
+            <div class="board" id = "board"></div>
+        </div>
+        
+    </div>
+
+     <!--Game Configuration-->
     <div  class = "gameconf-popup" id = "gameConf">
         <div class = "conf-header">
             <h1>Game Configuration</h1>
@@ -47,16 +78,16 @@
         <div class = "conf-body">
             <ul class = "set-menu">
                 <li class = "set-item">
-                    <label for="fname">Number of Cavities</label>
-                    <input type = "number" id="holes" name="holes" class = "cavities-input" onchange="updateBoard()"" min = 2 max = 10></input>
+                    <label >Number of Cavities</label>
+                    <input type = "number" value=3 id="holes" class = "cavities-input" onchange= updateBoard() min = 3 max = 10>
                 </li>
                 <li class = "set-item">
-                    <label for="fname">Number of Seeds</label>
-                    <input type = "number" class = "seeds-input"></input>
+                    <label >Number of Seeds</label>
+                    <input type = "number" value = 4 id = "n_seeds" class = "seeds-input" onchange= updateBoard()>
                 </li>
                 <li class = "set-item">
-                    <label for="fname">2 players</label>
-                    <input type = "checkbox" class = "mode-input"></input>
+                    <label >2 players</label>
+                    <input type = "checkbox" class = "mode-input">
                 </li>
             </ul>
         </div>
@@ -81,40 +112,6 @@
         </div>
     </div>
 
-    <!--LOGIN BOX-->
-    <div class="login-wrap">
-        <form class="login-container">
-            <div class="login-title">
-                Welcome
-            </div>
-
-            <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
-                <input class="input" placeholder="Email" type="text">
-                <!--<span class="focus-input100" data-placeholder="Email"></span>-->
-            </div>
-
-            <div class="wrap-input" data-validate="Enter password">
-                <input class="input" placeholder="Password" type="password" name="pass"> 
-                <!--<span class="focus-input100" data-placeholder="Password"></span>-->
-            </div>
-
-            <div class="login-btn-container">
-                    <button class="btn__grad">
-                        Login
-                    </button>
-            </div>
-
-            <div class="login-txt">
-                <span class="no-acc-txt">
-                    Don’t have an account?
-                </span>
-
-                <a class="sign-up-txt">
-                    Sign Up
-                </a>
-            </div>
-        </form>
-    </div>
 
     <!--Score Board-->
     <div class = "score-popup" id = "scorePopup">
@@ -130,12 +127,12 @@
                   <th>Date</th>
                   <th>Score</th>
                 </tr>
-                <tr>
+                <tr class = "score-elem">
                   <td>Ana Rita Ramada</td>
-                  <td>19 novembro</td>
+                  <td>19 novembro</td>  
                   <td>20</td>
                 </tr>
-                <tr>
+                <tr class = "score-elem">
                   <td>Maria Sofia Figueiredo</td>
                   <td>19 novembro</td>
                   <td>19</td>
@@ -143,8 +140,6 @@
               </table>            
         </div>
     </div>
-
-
 </body>
 
 
