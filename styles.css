@@ -171,19 +171,11 @@ table{
 /*BOARD*/
 
 .board {
-  /*position:relative;
-  display:none;
-  left: 30%;
-  top: 100%;
-
-  transform: scale(1);*/
-  
   position: relative;
   z-index: 10; /*Drawn above*/
   border-style: solid;
 	display: flex;
 
-	width: 800px;
 	height: 260px;
 	max-width: 100%;
 	overflow-x: auto;
@@ -196,7 +188,7 @@ table{
 }
 
 .rows {
-	flex: 7;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
@@ -207,7 +199,6 @@ table{
 }
 
 .store, .cell {
-
   flex: 1;
 	margin: 10px;
 	display: flex;
@@ -220,7 +211,11 @@ table{
   border-width: 1px;
 	cursor: default;
   border-radius: 10%;
+
+  min-width: 100px;
 }
+
+
 
 
  /*LOGIN*/
