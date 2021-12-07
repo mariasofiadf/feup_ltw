@@ -177,7 +177,6 @@ table{
   border-style: solid;
 	display: flex;
 
-	height: 60%;
 	max-width: 100%;
 
 	overflow-x: auto;
@@ -215,7 +214,7 @@ table{
   border-width: 1px;
 	cursor: default;
   border-radius: 10%;
-
+  min-height: 140px;
   min-width: 100px; 
 }
 
