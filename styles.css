@@ -34,17 +34,18 @@ table{
 }
 
 .line { margin-right: 0px !important; }
-    .navbar__container{
-      display: flex;
-      justify-content: space-between;
-      height: 80px;
-      z-index: 1;
-      width:100%;
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 0 50px;
-      }
-      
+
+.navbar__container{
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  z-index: 1;
+  width:100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 50px;
+  }
+  
 .navbar__logo {
   background-color: #ff8177;
   background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
@@ -143,28 +144,29 @@ table{
 
 }
 
-.right-side-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  border: solid 2px ;
-  width: 75%;
-  margin-left: 25%;
-  min-height: 500px;
-  display: flex;
-}
-.left-side-container{    
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  border: solid 2px ;
-  width: 25%;
+.main-container{
+  top:5%;   left:0;
+  position:fixed; width:100%; height:90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   display: flex;
+}
+
+.left-side-container{
+  top:75%;   left:0;
+  position:fixed; width:100%; height:25%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom:50px;
+  width: 100%;
+  position: absolute;
   min-height: 500px;
-  
   
 }
 
@@ -215,13 +217,50 @@ table{
   min-width: 100px;
 }
 
+/*FOOTER*/
 
+.footer{
+  background: hsl(0, 10%, 6%) ;
+  
+  display:flex;
+  font-size: 1.2rem;
+  position:fixed; 
+  z-index: 999; /* Always on top of everything (3D perspective)*/
 
+  top:90%;   left:0;
+  width:100%; height:10%;
+  justify-content:space-between;
+  
+}
 
- /*LOGIN*/
+.footer-title {
+  /*background-color: #ff8177;
+  background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;*/
+
+  font-size: 30px;
+  text-align: center;
+  align-self: center;
+  padding-left: 20px;
+
+  color: white;
+  line-height: 1.5;
+
+}
+
+.footer_btn_container{
+  align-self: center;
+  padding-right: 10px;
+}
+
+ /*LOGIN POPUP*/
+
   
  .login-wrap{
-  display: block;
+  display: none; /*TODO BUTTON*/
   width: 390px;
   height: 270px;
   background: rgb(255, 255, 255);
@@ -243,6 +282,7 @@ table{
 }
 
 .login-title {
+  
   display: block;
   font-size: 30px;
   color: #333333;
@@ -252,23 +292,21 @@ table{
 }
 
 
+
 .wrap-input{
   position: center;
   border-bottom: 2px solid #adadad;
-  margin-bottom: 15px;
 }
 
 .input{
   font-family: Poppins-Regular;
   font-size: 15px;
   color: #555555;
-  line-height: 1.2;
-
+  
   display: flex;
   width: 100%;
   height: 30px;
-  background: transparent;
-  padding: 5px 5px;
+  background: white;
   
 }
 
