@@ -31,38 +31,35 @@
 
    
 
-    <div class = "body-container">
-        <div class = "left-side-container">
-                   <!--LOGIN BOX-->
-            <div class="login-wrap">
-                <form class="login-container">
-                    <div class="login-title">Welcome</div>
+    <div class = "body-container">      
+        <!--LOGIN BOX-->
+        <div class="login-wrap">
+            <form class="login-container">
+                <div class="login-title">Welcome</div>
 
-                    <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
-                        <input class="input" placeholder="Email" type="text">
-                        <!--<span class="focus-input100" data-placeholder="Email"></span>-->
-                    </div>
+                <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
+                    <input class="input" placeholder="Email" type="text">
+                    <!--<span class="focus-input100" data-placeholder="Email"></span>-->
+                </div>
 
-                    <div class="wrap-input" data-validate="Enter password">
-                        <input class="input" placeholder="Password" type="password" name="pass"> 
-                        <!--<span class="focus-input100" data-placeholder="Password"></span>-->
-                    </div>
-
-                    <div class="login-btn-container">
-                            <button class="btn__grad">Login</button>
-                    </div>
-
-                    <div class="login-txt">
-                        <span class="no-acc-txt">Don’t have an account?</span>
-                        <a class="sign-up-txt">Sign Up</a>
-                    </div>
-                </form>
-            </div>
+                <div class="wrap-input" data-validate="Enter password">
+                    <input class="input" placeholder="Password" type="password" name="pass"> 
+                    <!--<span class="focus-input100" data-placeholder="Password"></span>-->
+                </div>
+                <div class="login-btn-container">
+                        <button class="btn__grad">Login</button>
+                </div>
+                <div class="login-txt">
+                    <span class="no-acc-txt">Don’t have an account?</span>
+                    <a class="sign-up-txt">Sign Up</a>
+                </div>
+            </form>
         </div>
+        
  
 
         <!--BOARD-->
-        <div class = "right-side-container">
+        <div class = "main-container">
             <div class="board" id = "board"></div>
         </div>
         
@@ -79,7 +76,7 @@
             <ul class = "set-menu">
                 <li class = "set-item">
                     <label >Number of Cavities</label>
-                    <input type = "number" value=3 id="holes" class = "cavities-input" onchange= updateBoard() min = 3 max = 10>
+                    <input type = "number" value=3 id="holes" class = "cavities-input" onchange= updateBoard() min = 3 max = 8>
                 </li>
                 <li class = "set-item">
                     <label >Number of Seeds</label>
@@ -138,6 +135,12 @@
                   <td>19</td>
                 </tr>
               </table>            
+        </div>
+    </div>
+    <div class = "footer">
+        <div class="footer-title">Welcome to Mancala</div>
+        <div class="footer_btn_container">
+            <button class="btn__grad">Login</button>
         </div>
     </div>
 </body>
