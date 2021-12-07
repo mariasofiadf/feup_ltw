@@ -27,6 +27,8 @@ closeRules.onclick = function(){
 var scorePopUp = document.getElementById("scorePopup");
 var openScore = document.getElementById("score-board");
 var closeScore = document.getElementById("closeScore");
+var board;
+var cells = document.getElementsByClassName("cell");
 
 openScore.onclick = function(){
     scorePopUp.style.display = "block";
@@ -41,6 +43,10 @@ window.onload = function(){
     updateBoard();
 }
 
+function play(r,c){
+    board.executePlay(r,c);
+}
+
 //Board
 function updateBoard(){
     const oldBoard  = document.getElementById('board');
@@ -48,9 +54,12 @@ function updateBoard(){
 
     const holes  = document.getElementById('holes').value;
     const seeds = document.getElementById('n_seeds').value;
-    const newBoard = new Board("board", holes, seeds);
-    //newBoard.executePlay(0, 0);
+    board = new Board("board", holes, seeds);
+    cells = document.getElementsByClassName("cell");
+    cells.onclick = play();
+    //board.executePlay(0, 0);
 }
+
 
 class Board{
     constructor(id, holes, n_seeds){
@@ -69,12 +78,11 @@ class Board{
     }
 
     buildStore(board, n){
-        this.stores[1-n] = document.createElement('div'); //Store for PLayer1
-        this.stores[1-n].className = "store";
-        this.stores[1-n].innerHTML = 0;
-        board.appendChild(this.stores[1-n]);
+        this.stores[n] = document.createElement('div'); //Store for PLayer1
+        this.stores[n].className = "store";
+        this.stores[n].innerHTML = 0;
+        board.appendChild(this.stores[n]);
     }
-
 
     buildCells(board, holes, n_seeds){
         const rows = document.createElement('div');//Container for the rows
@@ -86,29 +94,56 @@ class Board{
             row.className = "row";
             this.cells.push([])
             for(let c = 0; c < holes; c++){
-                this.cells[r][c] =document.createElement('div');
+                this.cells[r][c] = document.createElement('div');
                 this.cells[r][c].className = "cell";
                 this.cells[r][c].innerHTML = n_seeds;
-
+                this.cells[r][c].id = r.toString() + c.toString();
+                this.cells[r][c].onclick = function(){
+                    let x = parseInt(this.id.charAt(0));
+                    let y = parseInt(this.id.charAt(1));
+                    play(x,y);
+                }
+                //this.cells[r][c].addEventListener("click", play);
                 row.appendChild(this.cells[r][c]);
-
             }
-
             rows.appendChild(row);
         }
     }
 
     executePlay(r, c){
         let seeds = parseInt(this.cells[r][c].innerHTML);
-        this.cells[r][c].innerHTML = 0
-        c += 1;
-        if(r == 0){
-            while(c < this.cellCount && seeds > 0){
-                
-                this.cells[r][c].innerHTML += 1;
-                c++; seeds--;
+        this.cells[r][c].innerHTML = 0;
+        let n;
+        while(seeds > 0){
+            switch(r){
+                case 0:
+                    c--;
+                    if(c >= 0){
+                        n = parseInt(this.cells[r][c].innerHTML)
+                        this.cells[r][c].innerHTML = n +1;
+                    } else {
+                        r = 1;
+                        n = parseInt(this.stores[0].innerHTML)
+                        this.stores[0].innerHTML = n + 1;
+                    }
+                    break;
+                case 1:
+                    c++;
+                    if(c < this.cellCount){
+                        n = parseInt(this.cells[r][c].innerHTML)
+                        this.cells[r][c].innerHTML = n + 1;
+                    } else {
+                        r = 0;
+                        n = parseInt(this.stores[1].innerHTML)
+                        this.stores[1].innerHTML = n + 1;
+                    }
+                    break;
+                default:
+                    break;
             }
+            seeds--;
         }
 
     }
+
 }
