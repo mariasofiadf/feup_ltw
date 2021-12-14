@@ -54,7 +54,6 @@ function startGame(){
 }
 
 
-
 class AI {
     constructor(board, holes, seeds){
         this.board = board;
@@ -70,13 +69,21 @@ class AI {
 class Game{
     constructor(seeds, holes){
         this.board = new Board("board", holes, seeds);;
-        this.player = 0;
+        this.player = 1;
         //this.pvp = pvp;
         this.ai = new AI(board, holes,seeds);
     }
 
     execPlay(r, c){
-        this.board.executePlay(r, c);
+        //Prevents wrong play
+        if(r != this.player)
+            return;
+        let playAgain = this.board.executePlay(r, c);
+        
+        if(!playAgain)
+            this.player = !this.player;
+        
+        return playAgain;
     }
     
 
@@ -127,24 +134,25 @@ class Board{
                 this.cells[r][c].id = r.toString() + c.toString();
                 this.cells[r][c].onclick = function(){
                     let x= parseInt(this.id.charAt(0));
-                    if (x==0)
-                        return;
                     let y = parseInt(this.id.charAt(1));
-                    game.execPlay(x,y);
-                
-                    //let c = ai.ai_play();
-                    //game.execPlay(0,c);
+                    if(game.execPlay(x,y))
+                        return;
+                    
+                    let c = game.ai.ai_play();
+                    game.execPlay(0,c);
                 }
                 row.appendChild(this.cells[r][c]);
             }
             rows.appendChild(row);
         }
     }
+
     
     executePlay(r, c){
         let seeds = parseInt(this.cells[r][c].innerHTML);
         this.cells[r][c].innerHTML = 0;
         let n;   
+        let player = r;
 
         while(seeds > 0){
             switch(r){
@@ -157,6 +165,9 @@ class Board{
                         r = 1;
                         n = parseInt(this.stores[0].innerHTML)
                         this.stores[0].innerHTML = n + 1;
+                        if (seeds == 1 && player == 0){
+                            return 1;
+                        }
                     }
                     break;
                 case 1:
@@ -168,6 +179,9 @@ class Board{
                         r = 0;
                         n = parseInt(this.stores[1].innerHTML)
                         this.stores[1].innerHTML = n + 1;
+                        if (seeds == 1 && player == 1){
+                            return 1;
+                        }
                     }
                     break;
                 default:
@@ -175,6 +189,9 @@ class Board{
             }
             seeds--;
         }
+
+
+        
 
     }
 
