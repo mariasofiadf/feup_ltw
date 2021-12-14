@@ -1,3 +1,4 @@
+
 var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
@@ -8,6 +9,7 @@ openConf.onclick = function(){
 
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
+    startGame();
 }
 
 //Rules
@@ -27,7 +29,8 @@ closeRules.onclick = function(){
 var scorePopUp = document.getElementById("scorePopup");
 var openScore = document.getElementById("score-board");
 var closeScore = document.getElementById("closeScore");
-var board;
+var ai;
+var game;
 var cells = document.getElementsByClassName("cell");
 
 openScore.onclick = function(){
@@ -36,58 +39,82 @@ openScore.onclick = function(){
 
 closeScore.onclick = function(){ 
     scorePopUp.style.display = "none";
-    updateBoard();
+    startGame();
 }
 
-window.onload = function(){
-    updateBoard();
-}
 
-function play(r,c){
-    board.executePlay(r,c);
-}
-
-//Board
-function updateBoard(){
+function startGame(){
     const oldBoard  = document.getElementById('board');
     oldBoard.innerHTML = '';
 
     const holes  = document.getElementById('holes').value;
     const seeds = document.getElementById('n_seeds').value;
-    board = new Board("board", holes, seeds);
-    cells = document.getElementsByClassName("cell");
-    cells.onclick = play();
-    //board.executePlay(0, 0);
+    game = new Game(seeds, holes);
+
 }
 
 
+
+class AI {
+    constructor(board, holes, seeds){
+        this.board = board;
+        this.holes = holes;
+    }
+
+    ai_play(){
+        let a = Math.random()*this.holes;
+        return Math.floor(Math.random() * this.holes);
+    }
+}
+
+class Game{
+    constructor(seeds, holes){
+        this.board = new Board("board", holes, seeds);;
+        this.player = 0;
+        //this.pvp = pvp;
+        this.ai = new AI(board, holes,seeds);
+    }
+
+    execPlay(r, c){
+        this.board.executePlay(r, c);
+    }
+    
+
+    checkEnd(){
+        
+    }
+    
+    
+}
+
 class Board{
     constructor(id, holes, n_seeds){
-        const board  = document.getElementById('board'); 
+        const boardEl  = document.getElementById('board'); 
+        this.turn = 0;
         this.cellCount = holes;
         this.cells = [];
         this.stores = [];
         this.cellsSeeds = [];
         this.storesSeeds = [];
-        this.buildStore(board,0);
+        this.buildStore(boardEl,0);
 
-        this.buildCells(board, holes, n_seeds);
+        this.buildCells(boardEl, holes, n_seeds);
 
-        this.buildStore(board,1);
+        this.buildStore(boardEl,1);
 
     }
 
-    buildStore(board, n){
+    buildStore(boardEl, n){
         this.stores[n] = document.createElement('div'); //Store for PLayer1
         this.stores[n].className = "store";
         this.stores[n].innerHTML = 0;
-        board.appendChild(this.stores[n]);
-    }
+        boardEl.appendChild(this.stores[n]);
+    }    
 
-    buildCells(board, holes, n_seeds){
+    buildCells(boardEl, holes, n_seeds){
         const rows = document.createElement('div');//Container for the rows
         rows.className = "rows";
-        board.appendChild(rows);
+        boardEl.appendChild(rows);
 
         for(let r = 0; r<2; r++){ //Create both rows
             let row = document.createElement('div');
@@ -99,21 +126,26 @@ class Board{
                 this.cells[r][c].innerHTML = n_seeds;
                 this.cells[r][c].id = r.toString() + c.toString();
                 this.cells[r][c].onclick = function(){
-                    let x = parseInt(this.id.charAt(0));
+                    let x= parseInt(this.id.charAt(0));
+                    if (x==0)
+                        return;
                     let y = parseInt(this.id.charAt(1));
-                    play(x,y);
+                    game.execPlay(x,y);
+                
+                    //let c = ai.ai_play();
+                    //game.execPlay(0,c);
                 }
-                //this.cells[r][c].addEventListener("click", play);
                 row.appendChild(this.cells[r][c]);
             }
             rows.appendChild(row);
         }
     }
-
+    
     executePlay(r, c){
         let seeds = parseInt(this.cells[r][c].innerHTML);
         this.cells[r][c].innerHTML = 0;
-        let n;
+        let n;   
+
         while(seeds > 0){
             switch(r){
                 case 0:
