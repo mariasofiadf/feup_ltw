@@ -50,7 +50,7 @@ function startGame(){
     const holes  = document.getElementById('holes').value;
     const seeds = document.getElementById('n_seeds').value;
     game = new Game(seeds, holes);
-
+    game.draw();
 }
 
 
@@ -95,15 +95,15 @@ class Game{
 
     checkEnd(){
         for(let i = 0; i < this.board.cellCount; i++){
-            console.log(parseInt(this.board.cells[this.player][i].innerHTML));
-            if (parseInt(this.board.cells[this.player][i].innerHTML) > 0)
+            console.log(this.board.cells[this.player][i]);
+            if (this.board.cellsSeeds[this.player][i] > 0)
                 return false;
         }
         return true;
     }
     
     draw(){
-        
+        this.board.draw();
     }
     
 }
@@ -128,7 +128,7 @@ class Board{
     buildStore(boardEl, n){
         this.stores[n] = document.createElement('div'); //Store for PLayer1
         this.stores[n].className = "store";
-        this.stores[n].innerHTML = 0;
+        this.storesSeeds[n] = 0;
         boardEl.appendChild(this.stores[n]);
     }    
 
@@ -140,11 +140,12 @@ class Board{
         for(let r = 0; r<2; r++){ //Create both rows
             let row = document.createElement('div');
             row.className = "row";
-            this.cells.push([])
+            this.cells.push([]);
+            this.cellsSeeds.push([])
             for(let c = 0; c < holes; c++){
                 this.cells[r][c] = document.createElement('div');
                 this.cells[r][c].className = "cell";
-                this.cells[r][c].innerHTML = n_seeds;
+                this.cellsSeeds[r][c] = parseInt(n_seeds);
                 this.cells[r][c].id = r.toString() + c.toString();
                 this.cells[r][c].onclick = function(){
                     let x= parseInt(this.id.charAt(0));
@@ -168,9 +169,9 @@ class Board{
 
     
     executePlay(r, c){
-        let seeds = parseInt(this.cells[r][c].innerHTML);
+        let seeds = this.cellsSeeds[r][c];
         if(seeds == 0) return 1;
-        this.cells[r][c].innerHTML = 0;
+        this.cellsSeeds[r][c] = 0;
         let n;   
         let player = r;
 
@@ -180,20 +181,19 @@ class Board{
                 case 0:
                     c--;
                     if(c >= 0){
-                        n = parseInt(this.cells[r][c].innerHTML)
-                        this.cells[r][c].innerHTML = n +1;
+                        this.cellsSeeds[r][c] += 1;
                         seeds--;
                         if(player == 0 && n == 0 && seeds == 0){
-                            let collect = parseInt(this.cells[1][c].innerHTML);
-                            this.cells[1][c].innerHTML = 0;
-                            let k = parseInt(this.stores[0].innerHTML);
-                            this.stores[0].innerHTML = k + collect;
+                            let collect = this.cellsSeeds[1][c];
+                            this.cellsSeeds[1][c] = 0;
+                            let k = this.storesSeeds[0];
+                            this.storesSeeds[0] = k + collect;
                             return 1;
                         }
                     } else if (player == 0) {
                         r = 1;
-                        n = parseInt(this.stores[0].innerHTML)
-                        this.stores[0].innerHTML = n + 1;
+                        n = this.storesSeeds[0];
+                        this.storesSeeds[0] = n + 1;
                         if (seeds == 1 && player == 0){
                             return 1;
                         }
@@ -206,20 +206,20 @@ class Board{
                 case 1:
                     c++;
                     if(c < this.cellCount){
-                        n = parseInt(this.cells[r][c].innerHTML)
-                        this.cells[r][c].innerHTML = n + 1;
+                        n = this.cellsSeeds[r][c];
+                        this.cellsSeeds[r][c] = n + 1;
                         seeds--;
                         if(player == 1 && n == 0 && seeds == 0){
-                            let collect = parseInt(this.cells[0][c].innerHTML);
-                            this.cells[0][c].innerHTML = 0;
-                            let k = parseInt(this.stores[1].innerHTML);
-                            this.stores[1].innerHTML = k + collect;
+                            let collect = this.cellsSeeds[0][c];
+                            this.cellsSeeds[0][c] = 0;
+                            let k = this.storesSeeds[1];
+                            this.storesSeeds[1] = k + collect;
                             return 1;
                         }
                     } else if (player == 1){
                         r = 0;
-                        n = parseInt(this.stores[1].innerHTML)
-                        this.stores[1].innerHTML = n + 1;
+                        n = this.storesSeeds[1];
+                        this.storesSeeds[1] = n + 1;
                         if (seeds == 1 && player == 1){
                             return 1;
                         }
@@ -233,9 +233,29 @@ class Board{
             }
         }
 
-        
-        
-
     }
 
+    draw(){
+        let nSeeds;
+        for(let r = 0; r<2; r++){ 
+            for(let c = 0; c < this.cellCount; c++){
+                nSeeds = this.cellsSeeds[r][c];
+
+                this.cells[r][c].innerHTML= '';
+                for(let s = 0; s < nSeeds; s++){
+                    let seed = document.createElement('div');
+                    seed.className = "seed";
+                    this.cells[r][c].appendChild(seed);
+                }
+            }
+            this.stores[r].innerHTML = '';
+            nSeeds = this.storesSeeds[r];
+            for(let s = 0; s < nSeeds; s++){
+                let seed = document.createElement('div');
+                seed.className = "seed";
+                this.stores[r].appendChild(seed);
+            }
+        }
+
+    }
 }
