@@ -154,10 +154,8 @@ class Board{
                     if(playAgain)
                         return;
                     
-                    while(game.execPlay(0,game.ai.ai_play())> 0){
-                        game.draw();
-                    };
-
+                    while(game.execPlay(0,game.ai.ai_play())> 0);
+                    game.draw();
                     
                 }
                 row.appendChild(this.cells[r][c]);
@@ -179,6 +177,7 @@ class Board{
                 case 0:
                     c--;
                     if(c >= 0){
+                        n = this.cellsSeeds[r][c];
                         this.cellsSeeds[r][c] += 1;
                         seeds--;
                         if(player == 0 && n == 0 && seeds == 0){
@@ -230,7 +229,7 @@ class Board{
                     break;
             }
         }
-
+        return 0;
     }
 
     draw(){
