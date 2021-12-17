@@ -6,7 +6,7 @@
     <meta charset=UTF-8>        <!-- para caracteres acentuados   -->
     <title>Mancala</title> 
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <link rel="stylesheet" href="popups.css" type="text/css">
+    <link rel="stylesheet" href="popups.css" type="text/css">+
     <script type="text/javascript" src="app.js" defer></script>
   </head>
   
@@ -76,11 +76,11 @@
             <ul class = "set-menu">
                 <li class = "set-item">
                     <label >Number of Cavities</label>
-                    <input type = "number" value=3 id="holes" class = "cavities-input" onchange= updateBoard() min = 3 max = 8>
+                    <input type = "number" value=3 id="holes" class = "cavities-input" min = 3 max = 8>
                 </li>
                 <li class = "set-item">
                     <label >Number of Seeds</label>
-                    <input type = "number" value = 4 id = "n_seeds" class = "seeds-input" onchange= updateBoard()>
+                    <input type = "number" value = 4 id = "n_seeds" class = "seeds-input" >
                 </li>
                 <li class = "set-item">
                     <label >2 players</label>

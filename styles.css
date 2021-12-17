@@ -217,6 +217,13 @@ table{
   min-height: 140px;
   min-width: 100px; 
 }
+.seed {
+  background-color: rgba(0, 0, 0, 1);
+  padding: 10px;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 50%;
+}
 
 /*FOOTER*/
 
