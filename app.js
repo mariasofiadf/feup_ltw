@@ -86,7 +86,7 @@ class Game{
             this.player = 1;
 
         if(this.checkEnd()){
-            console.log("Ended");
+            console.log("Game Ended");
             return -1;
         }
         return playAgain;
@@ -95,7 +95,6 @@ class Game{
 
     checkEnd(){
         for(let i = 0; i < this.board.cellCount; i++){
-            console.log(this.board.cells[this.player][i]);
             if (this.board.cellsSeeds[this.player][i] > 0)
                 return false;
         }
@@ -176,7 +175,6 @@ class Board{
         let player = r;
 
         while(seeds > 0){
-            console.log("Stuck!");
             switch(r){
                 case 0:
                     c--;
@@ -240,7 +238,6 @@ class Board{
         for(let r = 0; r<2; r++){ 
             for(let c = 0; c < this.cellCount; c++){
                 nSeeds = this.cellsSeeds[r][c];
-
                 this.cells[r][c].innerHTML= '';
                 for(let s = 0; s < nSeeds; s++){
                     let seed = document.createElement('div');
