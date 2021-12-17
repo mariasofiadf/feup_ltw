@@ -80,17 +80,31 @@ class Game{
             return;
         let playAgain = this.board.executePlay(r, c);
         
-        if(!playAgain)
-            this.player = !this.player;
-        
+        if(!playAgain && this.player == 1)
+            this.player = 0;
+        else if (!playAgain)
+            this.player = 1;
+
+        if(this.checkEnd()){
+            console.log("Ended");
+            return -1;
+        }
         return playAgain;
     }
     
 
     checkEnd(){
-        
+        for(let i = 0; i < this.board.cellCount; i++){
+            console.log(parseInt(this.board.cells[this.player][i].innerHTML));
+            if (parseInt(this.board.cells[this.player][i].innerHTML) > 0)
+                return false;
+        }
+        return true;
     }
     
+    draw(){
+        
+    }
     
 }
 
@@ -135,11 +149,16 @@ class Board{
                 this.cells[r][c].onclick = function(){
                     let x= parseInt(this.id.charAt(0));
                     let y = parseInt(this.id.charAt(1));
-                    if(game.execPlay(x,y))
+                    let playAgain = game.execPlay(x,y);
+                    game.draw();
+                    if(playAgain)
                         return;
                     
-                    let c = game.ai.ai_play();
-                    game.execPlay(0,c);
+                    while(game.execPlay(0,game.ai.ai_play())> 0){
+                        game.draw();
+                    };
+
+                    
                 }
                 row.appendChild(this.cells[r][c]);
             }
@@ -150,24 +169,38 @@ class Board{
     
     executePlay(r, c){
         let seeds = parseInt(this.cells[r][c].innerHTML);
+        if(seeds == 0) return 1;
         this.cells[r][c].innerHTML = 0;
         let n;   
         let player = r;
 
         while(seeds > 0){
+            console.log("Stuck!");
             switch(r){
                 case 0:
                     c--;
                     if(c >= 0){
                         n = parseInt(this.cells[r][c].innerHTML)
                         this.cells[r][c].innerHTML = n +1;
-                    } else {
+                        seeds--;
+                        if(player == 0 && n == 0 && seeds == 0){
+                            let collect = parseInt(this.cells[1][c].innerHTML);
+                            this.cells[1][c].innerHTML = 0;
+                            let k = parseInt(this.stores[0].innerHTML);
+                            this.stores[0].innerHTML = k + collect;
+                            return 1;
+                        }
+                    } else if (player == 0) {
                         r = 1;
                         n = parseInt(this.stores[0].innerHTML)
                         this.stores[0].innerHTML = n + 1;
                         if (seeds == 1 && player == 0){
                             return 1;
                         }
+
+                        seeds--;
+                    } else {
+                        r = 1;
                     }
                     break;
                 case 1:
@@ -175,22 +208,32 @@ class Board{
                     if(c < this.cellCount){
                         n = parseInt(this.cells[r][c].innerHTML)
                         this.cells[r][c].innerHTML = n + 1;
-                    } else {
+                        seeds--;
+                        if(player == 1 && n == 0 && seeds == 0){
+                            let collect = parseInt(this.cells[0][c].innerHTML);
+                            this.cells[0][c].innerHTML = 0;
+                            let k = parseInt(this.stores[1].innerHTML);
+                            this.stores[1].innerHTML = k + collect;
+                            return 1;
+                        }
+                    } else if (player == 1){
                         r = 0;
                         n = parseInt(this.stores[1].innerHTML)
                         this.stores[1].innerHTML = n + 1;
                         if (seeds == 1 && player == 1){
                             return 1;
                         }
+                        seeds--;
+                    } else {
+                        r = 0;
                     }
                     break;
                 default:
                     break;
             }
-            seeds--;
         }
 
-
+        
         
 
     }
