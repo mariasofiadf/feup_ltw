@@ -89,16 +89,30 @@ class AI {
     ai_play_depth(d, board){
         let best = {col: 0, pts: 0};
         if(d == 0) return best;
+        let impossible = true;
+
+        for(let c = 0; c < board.cellCount; c++){
+            let boardCopy = copyBoard(board);
+            if(boardCopy.cellsSeeds[0][c] != 0)
+                impossible = false;
+        }
+        if(impossible)
+            return best;
+
         for(let c = 0; c < board.cellCount; c++){
             let boardCopy = copyBoard(board);
             if(boardCopy.cellsSeeds[0][c] == 0){
                 continue;
             }
             boardCopy.executePlay(0,c);
-            let next = this.ai_play_depth(d-1,boardCopy);
-            let evals = this.evaluate(boardCopy) + next.pts;
-            if(evals > best.pts){
-                best = {col: c, pts: evals};
+            for(let c2 = 0; c2 < board.cellCount; c2++){
+                let boardCopy2 = copyBoard(boardCopy);
+                boardCopy2.executePlay(1,c2);
+                let next = this.ai_play_depth(d-1,boardCopy2);
+                let evals = this.evaluate(boardCopy2) + next.pts;
+                if(evals > best.pts){
+                    best = {col: c, pts: evals};
+                }
             }
         }
         return best;
