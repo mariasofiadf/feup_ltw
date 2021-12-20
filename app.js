@@ -50,7 +50,7 @@ function startGame(){
     const holes  = document.getElementById('holes').value;
     const seeds = document.getElementById('n_seeds').value;
     const ai_diff = document.getElementById('ai_diff').value;
-    game = new Game(seeds, holes, ai_diff);
+    game = new Game(seeds, holes, ai_diff*2);
     game.draw();
 }
 
@@ -83,7 +83,7 @@ class AI {
             let a = Math.random()*this.holes;
             return Math.floor(Math.random() * this.holes);
         }
-        return this.ai_play_depth(this.difficulty, this.board);
+        return this.ai_play_depth(this.difficulty, this.board).col;
     }
 
     ai_play_depth(d, board){
@@ -101,7 +101,7 @@ class AI {
                 best = {col: c, pts: evals};
             }
         }
-        return best.col;
+        return best;
 
     }
 
