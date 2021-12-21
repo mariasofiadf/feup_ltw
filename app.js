@@ -49,29 +49,90 @@ function startGame(){
 
     const holes  = document.getElementById('holes').value;
     const seeds = document.getElementById('n_seeds').value;
-    game = new Game(seeds, holes);
+    const ai_diff = document.getElementById('ai_diff').value;
+    game = new Game(seeds, holes, ai_diff*2);
     game.draw();
+}
+
+function copyBoard(board){
+    let newB = new Board(board.cellCount, 0, true);
+    newB.storesSeeds[0] = board.storesSeeds[0];
+    newB.storesSeeds[1] = board.storesSeeds[1];
+
+    newB.cellsSeeds.push([]);
+    newB.cellsSeeds.push([]);
+    for(let r = 0; r < 2; r++){
+        for(let c = 0; c < board.cellCount; c++){
+            newB.cellsSeeds[r][c] = board.cellsSeeds[r][c];
+        }
+    }
+    return newB;
 }
 
 
 class AI {
-    constructor(board, holes, seeds){
+    constructor(board, holes, seeds, difficulty){
         this.board = board;
         this.holes = holes;
+        this.difficulty = difficulty;
     }
 
     ai_play(){
-        let a = Math.random()*this.holes;
-        return Math.floor(Math.random() * this.holes);
+
+        if(this.difficulty == 0){
+            let a = Math.random()*this.holes;
+            return Math.floor(Math.random() * this.holes);
+        }
+        return this.ai_play_depth(this.difficulty, this.board).col;
     }
+
+    ai_play_depth(d, board){
+        let best = {col: 0, pts: 0};
+        if(d == 0) return best;
+        let impossible = true;
+
+        for(let c = 0; c < board.cellCount; c++){
+            let boardCopy = copyBoard(board);
+            if(boardCopy.cellsSeeds[0][c] != 0)
+                impossible = false;
+        }
+        if(impossible)
+            return best;
+
+        for(let c = 0; c < board.cellCount; c++){
+            let boardCopy = copyBoard(board);
+            if(boardCopy.cellsSeeds[0][c] == 0){
+                continue;
+            }
+            boardCopy.executePlay(0,c);
+            for(let c2 = 0; c2 < board.cellCount; c2++){
+                let boardCopy2 = copyBoard(boardCopy);
+                boardCopy2.executePlay(1,c2);
+                let next = this.ai_play_depth(d-1,boardCopy2);
+                let evals = this.evaluate(boardCopy2) + next.pts;
+                if(evals > best.pts){
+                    best = {col: c, pts: evals};
+                }
+            }
+        }
+        return best;
+
+    }
+
+    evaluate(board){
+        return board.storesSeeds[0] - board.storesSeeds[1];
+    }
+
+
+
 }
 
 class Game{
-    constructor(seeds, holes){
-        this.board = new Board("board", holes, seeds);;
+    constructor(seeds, holes, ai_diff){
+        this.board = new Board(holes, seeds);;
         this.player = 1;
         //this.pvp = pvp;
-        this.ai = new AI(board, holes,seeds);
+        this.ai = new AI(this.board, holes, seeds, ai_diff);
     }
 
     execPlay(r, c){
@@ -108,7 +169,7 @@ class Game{
 }
 
 class Board{
-    constructor(id, holes, n_seeds){
+    constructor(holes, n_seeds, fake = false){
         const boardEl  = document.getElementById('board'); 
         this.turn = 0;
         this.cellCount = holes;
@@ -116,11 +177,14 @@ class Board{
         this.stores = [];
         this.cellsSeeds = [];
         this.storesSeeds = [];
-        this.buildStore(boardEl,0);
+        if(!fake){
 
-        this.buildCells(boardEl, holes, n_seeds);
-
-        this.buildStore(boardEl,1);
+            this.buildStore(boardEl,0);
+            
+            this.buildCells(boardEl, holes, n_seeds);
+            
+            this.buildStore(boardEl,1);
+        }
 
     }
 
@@ -140,7 +204,7 @@ class Board{
             let row = document.createElement('div');
             row.className = "row";
             this.cells.push([]);
-            this.cellsSeeds.push([])
+            this.cellsSeeds.push([]);
             for(let c = 0; c < holes; c++){
                 this.cells[r][c] = document.createElement('div');
                 this.cells[r][c].className = "cell";
@@ -154,7 +218,9 @@ class Board{
                     if(playAgain)
                         return;
                     
-                    while(game.execPlay(0,game.ai.ai_play())> 0);
+                    while(game.execPlay(0,game.ai.ai_play())> 0){
+                        game.draw();
+                    }
                     game.draw();
                     
                 }
@@ -185,7 +251,7 @@ class Board{
                             this.cellsSeeds[1][c] = 0;
                             let k = this.storesSeeds[0];
                             this.storesSeeds[0] = k + collect;
-                            return 1;
+                            //return 1;
                         }
                     } else if (player == 0) {
                         r = 1;
@@ -211,7 +277,7 @@ class Board{
                             this.cellsSeeds[0][c] = 0;
                             let k = this.storesSeeds[1];
                             this.storesSeeds[1] = k + collect;
-                            return 1;
+                            //return 1;
                         }
                     } else if (player == 1){
                         r = 0;
