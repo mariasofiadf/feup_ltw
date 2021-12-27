@@ -7,19 +7,6 @@
   }
 
 
-table{
-  position: fixed;
-  display:block;
-  top: 50%;
-  left:50%;
-  transform: translate(-50%,-50%);
-  border: 3px solid salmon;
-  border-radius: 10px;
-  z-index: 10; /*Drawn above*/
-  background-color: white;
-  max-width:80% ;
-  transition: 200ms ease-in-out;
-}
 
 .navbar{
   background: hsl(0, 10%, 6%) ;
@@ -171,9 +158,8 @@ table{
 /*BOARD*/
 
 .board {
-  
   position: relative;
-  z-index: 10; /*Drawn above*/
+  z-index: 5; /*Drawn above*/
   border-style: solid;
 	display: flex;
 
@@ -246,13 +232,6 @@ table{
 }
 
 .footer-title {
-  /*background-color: #ff8177;
-  background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;*/
-
   font-size: 30px;
   text-align: center;
   align-self: center;
@@ -272,18 +251,25 @@ table{
 
   
  .login-wrap{
-  display: none; /*TODO BUTTON*/
+  position: fixed;
+  display:none;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1);
+  z-index: 10; /*Drawn above*/
   width: 390px;
   height: 270px;
   background: rgb(255, 255, 255);
   border-radius: 20px;
-  overflow: hidden;  
 
   box-shadow: 5px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
 
-  transform: scale(0.8);
+  transition: 200ms ease-in-out;        
+  overflow: hidden;
+
+  
 }
 
 .login-container{
@@ -293,6 +279,28 @@ table{
   justify-content: center;
 }
 
+.login-header{
+  padding: 10px 15px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.login-header .close-btn{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+.login-header .title{
+  font-size: 1.25rem;
+  font-weight: bold;
+}
 .login-title {
   
   display: block;
@@ -302,7 +310,6 @@ table{
   text-align: center;
   padding: 10px;
 }
-
 
 
 .wrap-input{

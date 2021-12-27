@@ -3,6 +3,8 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
+
+
 openConf.onclick = function(){
     confPopUp.style.display = "block";
 }
@@ -10,6 +12,18 @@ openConf.onclick = function(){
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
     startGame();
+}
+
+var openLogin = document.getElementById("openLogin");
+var loginPopup = document.getElementById("login");
+var closeLogin  = document.getElementById("closeLogin");
+
+openLogin.onclick = function(){ 
+    loginPopup.style.display = "block";
+}
+
+closeLogin.onclick = function(){ 
+    loginPopup.style.display = "none";
 }
 
 //Rules
