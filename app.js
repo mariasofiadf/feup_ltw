@@ -3,7 +3,9 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
-
+window.onload = function(){
+    send();
+}
 
 openConf.onclick = function(){
     confPopUp.style.display = "block";
@@ -83,6 +85,21 @@ function copyBoard(board){
     return newB;
 }
 
+
+function send() {
+    if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
+
+    const xhr = new XMLHttpRequest();
+    let host = "twserver.alunos.dcc.fc.up.pt";
+    host = "localhost";
+    let port = 9091;
+
+    xhr.open('GET','http://'+host+':'+port,false);
+    xhr.send();
+    this.display.innerText = xhr.status;
+    if(xhr.status == 200)
+        this.display.innerText = xhr.responseText;
+}
 
 class AI {
     constructor(board, holes, seeds, difficulty){
