@@ -3,8 +3,18 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
+var host = "twserver.alunos.dcc.fc.up.pt";
+host = "localhost";
+var port = 9091;
+
 window.onload = function(){
-    send();
+    join(1, 'maria', 'pass',5,4);
+    leave('maria', 'pass',1);
+    notify('maria','pass',1,2);
+    ranking();
+    register('maria','pass');
+    update('maria',1);
+    
 }
 
 openConf.onclick = function(){
@@ -86,19 +96,40 @@ function copyBoard(board){
 }
 
 
-function send() {
+
+function join(group, nick, password, size, initial){
+    send(JSON.stringify({ 'group': group, 'nick': nick, 'password': password, 'size': size, 'initial': initial}), 'join');
+}
+function leave(nick, password, game){
+    send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game}), 'leave');
+}
+function notify(nick, password, game, move){
+    send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game, 'move':move}), 'notify');
+}
+function ranking(){
+    send("", 'ranking');
+}
+function register(nick, password){
+    send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
+}
+function update(nick, game){
+    send(JSON.stringify({ 'nick': nick, 'game': game}), 'update');
+}
+
+
+function send(jsonString, route) {
     if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
-
     const xhr = new XMLHttpRequest();
-    let host = "twserver.alunos.dcc.fc.up.pt";
-    host = "localhost";
-    let port = 9091;
+    const display = this.display;
 
-    xhr.open('GET','http://'+host+':'+port,false);
-    xhr.send();
-    this.display.innerText = xhr.status;
-    if(xhr.status == 200)
-        this.display.innerText = xhr.responseText;
+    xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            // const data = JSON.parse(xhr.responseText);
+            // display.innerText = data.value;
+        }
+    }    
+    xhr.send(jsonString);
 }
 
 class AI {
