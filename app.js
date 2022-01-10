@@ -8,11 +8,12 @@ host = "localhost";
 var port = 8991;
 
 window.onload = function(){
-    // join(1, 'maria', 'pass',5,4);
+    //join(1, 'maria', 'pass',5,4);
     // leave('maria', 'pass',1);
     // notify('maria','pass',1,2);
-    ranking();
-    register('maria','pass');
+    //ranking();
+    //register('maria','pass');
+    login('maria','pass');
     // update('maria',1);
 }
 
@@ -108,9 +109,12 @@ function notify(nick, password, game, move){
 function ranking(){
     send("", 'ranking');
 }
+
+function login(nick, password){
+    send(JSON.stringify({ 'nick': nick, 'password': password}), 'login');
+}
 function register(nick, password){
-    postData('http://localhost:8991/register', { 'nick': nick, 'password': password});
-    // send(JSON.stringify(), 'register');
+    send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
 }
 function update(nick, game){
     send(JSON.stringify({ 'nick': nick, 'game': game}), 'update');
