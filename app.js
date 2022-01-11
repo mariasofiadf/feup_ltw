@@ -8,12 +8,12 @@ host = "localhost";
 var port = 8991;
 
 window.onload = function(){
-    //join(1, 'maria', 'pass',5,4);
-    // leave('maria', 'pass',1);
-    // notify('maria','pass',1,2);
-    //ranking();
     //register('maria','pass');
-    login('maria','pass');
+    //ranking();
+    join(1264857392867, 'ramadamaria', 'pass',5,4);
+    //leave('ramadamaria', 'pass',1264857392867);
+    // notify('maria','pass',1,2);
+    //login('maria','pass');
     // update('maria',1);
 }
 
@@ -28,10 +28,21 @@ closeConf.onclick = function(){
 
 var openLogin = document.getElementById("openLogin");
 var loginPopup = document.getElementById("login");
+var submitLogin = document.getElementById("submitLogin");
 var closeLogin  = document.getElementById("closeLogin");
 
 openLogin.onclick = function(){ 
     loginPopup.style.display = "block";
+}
+
+submitLogin.onclick = function(){
+    //let form = document.getElementById("loginForm");
+    //let n = form.elements['nick'].value;
+    //let p = form.elements['pass'].value;
+    // login(n,p);
+    let nick = document.getElementById('nick').value;
+    let pass = document.getElementById('pass').value;
+    register(nick,pass);
 }
 
 closeLogin.onclick = function(){ 
@@ -65,7 +76,6 @@ openScore.onclick = function(){
 
 closeScore.onclick = function(){ 
     scorePopUp.style.display = "none";
-    startGame();
 }
 
 
@@ -82,7 +92,7 @@ function startGame(){
 
 function copyBoard(board){
     let newB = new Board(board.cellCount, 0, true);
-    newB.storesSeeds[0] = board.storesSeeds[0];
+    newB.storesSeeds[0] = boardst.storesSeeds[0];
     newB.storesSeeds[1] = board.storesSeeds[1];
 
     newB.cellsSeeds.push([]);
@@ -107,7 +117,7 @@ function notify(nick, password, game, move){
     send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game, 'move':move}), 'notify');
 }
 function ranking(){
-    send("", 'ranking');
+    send("{}", 'ranking');
 }
 
 function login(nick, password){
@@ -126,7 +136,11 @@ function send(jsonString, route) {
     const xhr = new XMLHttpRequest();
     const display = this.display;
 
-    xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+    //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+
+    xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,true);
+
+    console.log("opened xhr");
     xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
             // const data = JSON.parse(xhr.responseText);
@@ -134,6 +148,7 @@ function send(jsonString, route) {
         }
     }    
     xhr.send(jsonString);
+    console.log("sent: " + jsonString);
 }
 
 class AI {
@@ -405,4 +420,4 @@ async function postData(url = '', data = {}) {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
     return response.json(); // parses JSON response into native JavaScript objects
-  }
+  } 

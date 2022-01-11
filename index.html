@@ -34,31 +34,31 @@
     <div class = "body-container">      
         <!--LOGIN BOX-->
         <div class="login-wrap" id ="login">
-            <form class="login-container" action="login">
                 <div class = "login-header">
                     <div class="login-title">Welcome</div>
                     <button class = "close-btn" id = "closeLogin">&times;</button>
                 </div>
                 
-                
-                <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
-                    <input class="input" placeholder="Email" type="text">
+                <div class="wrap-input validate-input" >
+                    <label for="nick"></label>
+                    <input class="input" placeholder="Email" type="text" name = "nick" id="nick">
                     <!--<span class="focus-input100" data-placeholder="Email"></span>-->
                 </div>
 
                 <div class="wrap-input" data-validate="Enter password">
-                    <input class="input" placeholder="Password" type="password" name="pass"> 
+                    <label for="pass"></label>
+                    <input class="input" placeholder="Password" type="password" name="pass" id="pass"> 
                     <!--<span class="focus-input100" data-placeholder="Password"></span>-->
                 </div>
                 <div class="login-btn-container">
-                        <button class="btn__grad">Login</button>
+                        <button  class="btn__grad" id="submitLogin" >Login</button>
                 </div>
                 <div class="login-txt">
                     <span class="no-acc-txt">Don’t have an account?</span>
                     <a class="sign-up-txt">Sign Up</a>
                 </div>
-            </form>
         </div>
+        
         
  
 

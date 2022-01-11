@@ -28,6 +28,7 @@ const server = http.createServer(function (req, res) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
     res.setHeader('Access-Control-Allow-Credentials', true); // If needed
     if(req.method === 'POST'){
+        console.log("Got Post");
         doPost(req,res, path);
     }
     else if(req.method === 'GET'){
@@ -106,7 +107,7 @@ function login(nick, pass){
             console.log(nick + " logged in.\n");
             return true;
         }
-    }
+    }   
     console.log("Someone tried to log into " + nick + "'s account with the wrong password");
     return false;
 }
