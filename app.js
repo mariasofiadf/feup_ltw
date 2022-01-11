@@ -7,11 +7,13 @@ var host = "twserver.alunos.dcc.fc.up.pt";
 host = "localhost";
 var port = 8991;
 
+var game = 0;
+
 window.onload = function(){
     //register('maria','pass');
     //ranking();
-    join(1264857392867, 'ramadamaria', 'pass',5,4);
-    //leave('ramadamaria', 'pass',1264857392867);
+    join(1264857392867, 'ramadamaria', 'pass',5,4); 
+    //leave('ramadamaria', 'pass',"f97d653c5d3ff70282fe25335a44786c");
     // notify('maria','pass',1,2);
     //login('maria','pass');
     // update('maria',1);
@@ -108,7 +110,7 @@ function copyBoard(board){
 
 
 function join(group, nick, password, size, initial){
-    send(JSON.stringify({ 'group': group, 'nick': nick, 'password': password, 'size': size, 'initial': initial}), 'join');
+    sendJoin(JSON.stringify({ 'group': group, 'nick': nick, 'password': password, 'size': size, 'initial': initial}), 'join');
 }
 function leave(nick, password, game){
     send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game}), 'leave');
@@ -130,6 +132,26 @@ function update(nick, game){
     send(JSON.stringify({ 'nick': nick, 'game': game}), 'update');
 }
 
+function sendJoin(jsonString, route){
+    if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
+    const xhr = new XMLHttpRequest();
+    
+    //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+
+    xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,true);
+
+    console.log("opened xhr");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            const data = JSON.parse(xhr.responseText);
+            game = data.game;
+            leave('ramadamaria', 'pass',game);
+            console.log(game);
+        }
+    }    
+    xhr.send(jsonString);
+    console.log("sent: " + jsonString);
+}
 
 function send(jsonString, route) {
     if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
