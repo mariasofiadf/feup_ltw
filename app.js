@@ -3,6 +3,8 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
+var leaveBtn = document.getElementById("leaveBtn");
+
 var host = "twserver.alunos.dcc.fc.up.pt";
 host = "localhost";
 var port = 8991;
@@ -53,6 +55,10 @@ submitLogin.onclick = function(){
     nick = document.getElementById('nick').value;
     pass = document.getElementById('pass').value;
     register(nick,pass);
+}
+
+leaveBtn.onclick = function(){
+    leave(nick,pass,game);
 }
 
 closeLogin.onclick = function(){ 
