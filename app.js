@@ -9,7 +9,7 @@ var host = "twserver.alunos.dcc.fc.up.pt";
 host = "localhost";
 var port = 8991;
 
-var game = 0;
+var gameID = 0;
 
 var pvp = false;
 var nick = "";
@@ -37,6 +37,7 @@ closeConf.onclick = function(){
         let seeds = document.getElementById('n_seeds').value;
         let group = document.getElementById("group").value;
         join(group,nick,pass,holes,seeds);
+        startPVP();
     }
     else
         startGame();
@@ -106,6 +107,16 @@ function startGame(){
     game.draw();
 }
 
+function startPVP(){
+    const oldBoard  = document.getElementById('board');
+    oldBoard.innerHTML = '';
+
+    const holes  = document.getElementById('holes').value;
+    const seeds = document.getElementById('n_seeds').value;
+    game = new Game(seeds, holes, 0, true);
+    game.draw();
+}
+
 function copyBoard(board){
     let newB = new Board(board.cellCount, 0, true);
     newB.storesSeeds[0] = boardst.storesSeeds[0];
@@ -158,8 +169,8 @@ function sendJoin(jsonString, route){
     xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
             const data = JSON.parse(xhr.responseText);
-            game = data.game;
-            console.log("Game" + game);
+            gameID = data.game;
+            console.log("GameID" + gameID);
         }
     }    
     xhr.send(jsonString);
@@ -244,10 +255,10 @@ class AI {
 }
 
 class Game{
-    constructor(seeds, holes, ai_diff){
+    constructor(seeds, holes, ai_diff, pvp = false){
         this.board = new Board(holes, seeds);;
         this.player = 1;
-        //this.pvp = pvp;
+        this.pvp = pvp;
         this.ai = new AI(this.board, holes, seeds, ai_diff);
     }
 
@@ -331,12 +342,19 @@ class Board{
                     let y = parseInt(this.id.charAt(1));
                     let playAgain = game.execPlay(x,y);
                     game.draw();
-                    if(playAgain)
-                        return;
-                    
-                    while(game.execPlay(0,game.ai.ai_play())> 0){
-                        game.draw();
+                    if(pvp){
+                        notify(nick, pass, gameID, x);
+                        if(playAgain)
+                            return;
                     }
+                    else{
+                        if(playAgain)
+                        return;
+                        while(game.execPlay(0,game.ai.ai_play())> 0){
+                            game.draw();
+                        }
+                    }
+                    
                     game.draw();
                     
                 }
