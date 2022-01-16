@@ -15,6 +15,9 @@ var pvp = false;
 var nick = "";
 var pass = "";
 
+var eventSource;
+
+
 window.onload = function(){
     //register('maria','pass');
     //ranking();
@@ -60,6 +63,7 @@ submitLogin.onclick = function(){
 
 leaveBtn.onclick = function(){
     leave(nick,pass,game);
+    eventSource.close()
 }
 
 closeLogin.onclick = function(){ 
@@ -171,6 +175,12 @@ function sendJoin(jsonString, route){
             const data = JSON.parse(xhr.responseText);
             gameID = data.game;
             console.log("GameID" + gameID);
+            let encoded = encodeURI( '?' + 'game=' + gameID + '&nick='+ nick);
+            eventSource = new EventSource('http://twserver.alunos.dcc.fc.up.pt:8008/update'+encoded);
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                console.log(data);
+            }
         }
     }    
     xhr.send(jsonString);
