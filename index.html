@@ -6,7 +6,7 @@
     <meta charset=UTF-8>        <!-- para caracteres acentuados   -->
     <title>Mancala</title> 
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <link rel="stylesheet" href="popups.css" type="text/css">+
+    <link rel="stylesheet" href="popups.css" type="text/css">
     <script type="text/javascript" src="app.js" defer></script>
   </head>
   
@@ -33,33 +33,37 @@
 
     <div class = "body-container">      
         <!--LOGIN BOX-->
-        <div class="login-wrap">
-            <form class="login-container">
-                <div class="login-title">Welcome</div>
-
-                <div class="wrap-input validate-input" data-validate = "Valid email is: a@b.c">
-                    <input class="input" placeholder="Email" type="text">
+        <div class="login-wrap" id ="login">
+                <div class = "login-header">
+                    <div class="login-title">Welcome</div>
+                    <button class = "close-btn" id = "closeLogin">&times;</button>
+                </div>
+                
+                <div class="wrap-input validate-input" >
+                    <label for="nick"></label>
+                    <input class="input" placeholder="Email" type="text" name = "nick" id="nick">
                     <!--<span class="focus-input100" data-placeholder="Email"></span>-->
                 </div>
 
                 <div class="wrap-input" data-validate="Enter password">
-                    <input class="input" placeholder="Password" type="password" name="pass"> 
+                    <label for="pass"></label>
+                    <input class="input" placeholder="Password" type="password" name="pass" id="pass"> 
                     <!--<span class="focus-input100" data-placeholder="Password"></span>-->
                 </div>
                 <div class="login-btn-container">
-                        <button class="btn__grad">Login</button>
+                        <button  class="btn__grad" id="submitLogin" >Login</button>
                 </div>
                 <div class="login-txt">
                     <span class="no-acc-txt">Don’t have an account?</span>
                     <a class="sign-up-txt">Sign Up</a>
                 </div>
-            </form>
         </div>
+        
         
  
 
         <!--BOARD-->
-        <div class = "main-container">
+        <div class = "main-container" >
             <div class="board" id = "board"></div>
         </div>
         
@@ -84,7 +88,11 @@
                 </li>
                 <li class = "set-item">
                     <label >2 players</label>
-                    <input type = "checkbox" class = "mode-input">
+                    <input type = "checkbox" id = "pvp"  class = "mode-input">
+                </li>
+                <li class = "set-item">
+                    <label >Group</label>
+                    <input type = "number" value = 0 id = "group" class = "seeds-input">
                 </li>
                 <li class = "set-item">
                     <label >AI Difficulty</label>
@@ -122,7 +130,7 @@
         </div>
         <div class="bottom-border"></div>
         <div class = "score-body">
-            <table class = "score-table" >
+            <table class =  "score-table" id = "scores" >
                 <tr class="score-table-header">
                   <th>Name</th>
                   <th>Date</th>
@@ -140,11 +148,14 @@
                 </tr>
               </table>            
         </div>
+
     </div>
+
     <div class = "footer">
         <div class="footer-title">Welcome to Mancala</div>
         <div class="footer_btn_container">
-            <button class="btn__grad">Login</button>
+            <button class="btn__grad"  id = "openLogin" >Login</button>
+            <button class="btn__grad"  id = "leaveBtn" >Leave</button>
         </div>
     </div>
 </body>

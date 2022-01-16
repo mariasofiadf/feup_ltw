@@ -3,13 +3,71 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
+var leaveBtn = document.getElementById("leaveBtn");
+
+var host = "twserver.alunos.dcc.fc.up.pt";
+host = "localhost";
+var port = 8991;
+
+var gameID = 0;
+
+var pvp = false;
+var nick = "";
+var pass = "";
+
+var eventSource;
+
+
+window.onload = function(){
+    //register('maria','pass');
+    //ranking();
+    //join(1264857392867, 'ramadamaria', 'pass',5,4); 
+    //leave('ramadamaria', 'pass',"f97d653c5d3ff70282fe25335a44786c");
+    // notify('maria','pass',1,2);
+    //login('maria','pass');
+    // update('maria',1);
+}
+
 openConf.onclick = function(){
     confPopUp.style.display = "block";
 }
 
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
-    startGame();
+    pvp = document.getElementById("pvp").checked;
+    if(pvp){
+        let holes  = document.getElementById('holes').value;
+        let seeds = document.getElementById('n_seeds').value;
+        let group = document.getElementById("group").value;
+        join(group,nick,pass,holes,seeds);
+        startPVP();
+    }
+    else
+        startGame();
+}
+
+var openLogin = document.getElementById("openLogin");
+var loginPopup = document.getElementById("login");
+var submitLogin = document.getElementById("submitLogin");
+var closeLogin  = document.getElementById("closeLogin");
+
+openLogin.onclick = function(){ 
+    loginPopup.style.display = "block";
+}
+
+submitLogin.onclick = function(){
+    nick = document.getElementById('nick').value;
+    pass = document.getElementById('pass').value;
+    register(nick,pass);
+}
+
+leaveBtn.onclick = function(){
+    leave(nick,pass,game);
+    eventSource.close()
+}
+
+closeLogin.onclick = function(){ 
+    loginPopup.style.display = "none";
 }
 
 //Rules
@@ -39,7 +97,6 @@ openScore.onclick = function(){
 
 closeScore.onclick = function(){ 
     scorePopUp.style.display = "none";
-    startGame();
 }
 
 
@@ -54,9 +111,19 @@ function startGame(){
     game.draw();
 }
 
+function startPVP(){
+    const oldBoard  = document.getElementById('board');
+    oldBoard.innerHTML = '';
+
+    const holes  = document.getElementById('holes').value;
+    const seeds = document.getElementById('n_seeds').value;
+    game = new Game(seeds, holes, 0, true);
+    game.draw();
+}
+
 function copyBoard(board){
     let newB = new Board(board.cellCount, 0, true);
-    newB.storesSeeds[0] = board.storesSeeds[0];
+    newB.storesSeeds[0] = boardst.storesSeeds[0];
     newB.storesSeeds[1] = board.storesSeeds[1];
 
     newB.cellsSeeds.push([]);
@@ -69,6 +136,76 @@ function copyBoard(board){
     return newB;
 }
 
+
+
+function join(group, nick, password, size, initial){
+    sendJoin(JSON.stringify({ 'group': group, 'nick': nick, 'password': password, 'size': size, 'initial': initial}), 'join');
+}
+function leave(nick, password, game){
+    send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game}), 'leave');
+}
+function notify(nick, password, game, move){
+    send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game, 'move':move}), 'notify');
+}
+function ranking(){
+    send("{}", 'ranking');
+}
+
+function login(nick, password){
+    send(JSON.stringify({ 'nick': nick, 'password': password}), 'login');
+}
+function register(nick, password){
+    send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
+}
+function update(nick, game){
+    send(JSON.stringify({ 'nick': nick, 'game': game}), 'update');
+}
+
+function sendJoin(jsonString, route){
+    if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
+    const xhr = new XMLHttpRequest();
+    
+    //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+
+    xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,true);
+
+    console.log("opened xhr");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            const data = JSON.parse(xhr.responseText);
+            gameID = data.game;
+            console.log("GameID" + gameID);
+            let encoded = encodeURI( '?' + 'game=' + gameID + '&nick='+ nick);
+            eventSource = new EventSource('http://twserver.alunos.dcc.fc.up.pt:8008/update'+encoded);
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                console.log(data);
+            }
+        }
+    }    
+    xhr.send(jsonString);
+    console.log("sent: " + jsonString);
+}
+
+function send(jsonString, route) {
+    if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
+    const xhr = new XMLHttpRequest();
+    const display = this.display;
+
+    //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
+
+    xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,true);
+
+    console.log("opened xhr");
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            // const data = JSON.parse(xhr.responseText);
+            // display.innerText = data.value;
+        }
+    }    
+    xhr.send(jsonString);
+    console.log("sent: " + jsonString);
+}
 
 class AI {
     constructor(board, holes, seeds, difficulty){
@@ -128,10 +265,10 @@ class AI {
 }
 
 class Game{
-    constructor(seeds, holes, ai_diff){
+    constructor(seeds, holes, ai_diff, pvp = false){
         this.board = new Board(holes, seeds);;
         this.player = 1;
-        //this.pvp = pvp;
+        this.pvp = pvp;
         this.ai = new AI(this.board, holes, seeds, ai_diff);
     }
 
@@ -215,12 +352,19 @@ class Board{
                     let y = parseInt(this.id.charAt(1));
                     let playAgain = game.execPlay(x,y);
                     game.draw();
-                    if(playAgain)
-                        return;
-                    
-                    while(game.execPlay(0,game.ai.ai_play())> 0){
-                        game.draw();
+                    if(pvp){
+                        notify(nick, pass, gameID, x);
+                        if(playAgain)
+                            return;
                     }
+                    else{
+                        if(playAgain)
+                        return;
+                        while(game.execPlay(0,game.ai.ai_play())> 0){
+                            game.draw();
+                        }
+                    }
+                    
                     game.draw();
                     
                 }
@@ -321,3 +465,22 @@ class Board{
 
     }
 }
+
+
+async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+  } 

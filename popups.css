@@ -41,13 +41,6 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom-color: linear-gradient(to right,red, purple);
-  
-  }
-  
-  .conf-header .title{
-    font-size: 1.25rem;
-    font-weight: bold;
   }
   
   .conf-header .close-btn{
@@ -123,7 +116,6 @@
   
   
  
-  
 
 
   /*Score Board*/
@@ -165,9 +157,28 @@
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  .score-body{
+    padding: 10px 15px;
+  }
   
-  .score-table, th, td {
+  .score-table{
     width: 100%;
     align-items:center;
+  }
+
+  #scores td, #scores th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+ /* #scores tr:nth-child(even){background-color: #f1a3a3;}
+  #scores tr:nth-child(odd) {background-color: rgb(247, 210, 210);}*/
+
+  #scores th{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: white;
   }
   
