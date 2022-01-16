@@ -9,10 +9,14 @@ var port = 8991;
 
 var game = 0;
 
+var pvp = false;
+var nick = "";
+var pass = "";
+
 window.onload = function(){
     //register('maria','pass');
     //ranking();
-    join(1264857392867, 'ramadamaria', 'pass',5,4); 
+    //join(1264857392867, 'ramadamaria', 'pass',5,4); 
     //leave('ramadamaria', 'pass',"f97d653c5d3ff70282fe25335a44786c");
     // notify('maria','pass',1,2);
     //login('maria','pass');
@@ -25,7 +29,15 @@ openConf.onclick = function(){
 
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
-    startGame();
+    pvp = document.getElementById("pvp").checked;
+    if(pvp){
+        let holes  = document.getElementById('holes').value;
+        let seeds = document.getElementById('n_seeds').value;
+        let group = document.getElementById("group").value;
+        join(group,nick,pass,holes,seeds);
+    }
+    else
+        startGame();
 }
 
 var openLogin = document.getElementById("openLogin");
@@ -38,12 +50,8 @@ openLogin.onclick = function(){
 }
 
 submitLogin.onclick = function(){
-    //let form = document.getElementById("loginForm");
-    //let n = form.elements['nick'].value;
-    //let p = form.elements['pass'].value;
-    // login(n,p);
-    let nick = document.getElementById('nick').value;
-    let pass = document.getElementById('pass').value;
+    nick = document.getElementById('nick').value;
+    pass = document.getElementById('pass').value;
     register(nick,pass);
 }
 
@@ -145,8 +153,7 @@ function sendJoin(jsonString, route){
         if(xhr.readyState == 4 && xhr.status == 200) {
             const data = JSON.parse(xhr.responseText);
             game = data.game;
-            leave('ramadamaria', 'pass',game);
-            console.log(game);
+            console.log("Game" + game);
         }
     }    
     xhr.send(jsonString);
