@@ -2,6 +2,7 @@
 var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
+var AIstartBtn = document.getElementById("aistart");
 
 var PVPbtn = document.getElementById("pvp");
 var PVPconfig = document.getElementById("pvpconfig");
@@ -31,22 +32,23 @@ openConf.onclick = function(){
     confPopUp.style.display = "block";
 }
 
+AIstartBtn.onclick = function(){
+    confPopUp.style.display = "none";
+    pvp = false;
+    startGame();
+}
 closeConf.onclick = function(){ 
     confPopUp.style.display = "none";
-    pvp = document.getElementById("pvp").checked;
-    if(pvp){
-        let holes  = document.getElementById('holes').value;
-        let seeds = document.getElementById('n_seeds').value;
-        let group = document.getElementById("group").value;
-        join(group,nick,pass,holes,seeds);
-        startPVP();
-    }
-    else
-        startGame();
 }
 
 PVPbtn.onclick = function(){
+    if(nick == "")
+    {
+        alert("Login first");
+        return;
+    }
     PVPconfig.style.display = "block";
+
 }
 
 PVPconfigCloseBtn.onclick = function(){
