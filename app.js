@@ -59,7 +59,7 @@ submitLogin.onclick = function(){
 }
 
 leaveBtn.onclick = function(){
-    leave(nick,pass,game);
+    leave(nick,pass,gameID);
     eventSource.close()
 }
 
