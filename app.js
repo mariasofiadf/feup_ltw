@@ -145,6 +145,12 @@ function join(group, nick, password, size, initial){
         eventSource = new EventSource('http://twserver.alunos.dcc.fc.up.pt:8008/update'+encoded);
         eventSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
+            if(data.winner != null){
+                alert(data.winner + " wins!");
+            }
+            else if(data.board != null){
+                updateBoard(data.board);
+            }
             console.log(data);
         }
     }
@@ -237,8 +243,11 @@ class AI {
         return board.storesSeeds[0] - board.storesSeeds[1];
     }
 
+}
 
-
+function updateBoard(serverBoard){
+    game.board.update(serverBoard);
+    game.board.draw();
 }
 
 class Game{
@@ -254,7 +263,7 @@ class Game{
         if(pvp){
             if(!notify(nick, pass, gameID, c))
                 return;
-                playAgain = this.board.executePlay(r, c);
+            //playAgain = this.board.executePlay(r, c);
             
         }
         else{
@@ -449,5 +458,25 @@ class Board{
             }
         }
 
+    }
+
+    update(serverBoard){
+        let sides = serverBoard.sides;
+        for (const [key, value] of Object.entries(sides)) {
+            if(key == nick){
+                this.storesSeeds[1] = sides[key].store;
+                for(let i = 0; i<this.cellCount; i++)
+                {
+                    this.cellsSeeds[1][i] = sides[key].pits[i];
+                }
+            }
+            else{
+                this.storesSeeds[0] = sides[key].store;
+                for(let i = 0; i<this.cellCount; i++)
+                {
+                    this.cellsSeeds[0][this.cellCount - 1 - i] = sides[key].pits[i];
+                }
+            }
+        }
     }
 }
