@@ -144,7 +144,7 @@ function startPVP(){
 
 function copyBoard(board){
     let newB = new Board(board.cellCount, 0, true);
-    newB.storesSeeds[0] = boardst.storesSeeds[0];
+    newB.storesSeeds[0] = board.storesSeeds[0];
     newB.storesSeeds[1] = board.storesSeeds[1];
 
     newB.cellsSeeds.push([]);
