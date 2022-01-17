@@ -3,6 +3,11 @@ var confPopUp = document.getElementById("gameConf");
 var openConf = document.getElementById("play");
 var closeConf = document.getElementById("closeConf");
 
+var PVPbtn = document.getElementById("pvp");
+var PVPconfig = document.getElementById("pvpconfig");
+var PVPconfigCloseBtn = document.getElementById("closePVPConfig");
+var PVPstartBtn = document.getElementById("pvpstart");
+
 var leaveBtn = document.getElementById("leaveBtn");
 
 var host = "twserver.alunos.dcc.fc.up.pt";
@@ -22,9 +27,6 @@ var myTurn = false;
 gotNotifyResponse = false;
 
 
-window.onload = function(){
-}
-
 openConf.onclick = function(){
     confPopUp.style.display = "block";
 }
@@ -42,6 +44,26 @@ closeConf.onclick = function(){
     else
         startGame();
 }
+
+PVPbtn.onclick = function(){
+    PVPconfig.style.display = "block";
+}
+
+PVPconfigCloseBtn.onclick = function(){
+    PVPconfig.style.display = "none";
+}
+
+PVPstartBtn.onclick = function(){ 
+    pvp = true;
+    PVPconfig.style.display = "none";
+    let holes  = document.getElementById('holes').value;
+    let seeds = document.getElementById('n_seeds').value;
+    let group = document.getElementById("group").value;
+    join(group,nick,pass,holes,seeds);
+    startPVP();
+}
+
+
 
 var openLogin = document.getElementById("openLogin");
 var loginPopup = document.getElementById("login");

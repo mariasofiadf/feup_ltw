@@ -25,6 +25,9 @@
                 <li class = "navbar__btn">
                     <button class="btn__grad" id="play">Play</button>
                 </li>
+                <li class = "navbar__btn">
+                    <button class="btn__grad" id="pvp">PVP</button>
+                </li>
             </ul>
         </div>
     </nav>
@@ -102,6 +105,37 @@
         </div>
         <!--onother div to darken the background when this popup is oppened-->
     </div>
+
+
+    <div  class = "gameconf-popup" id = "pvpconfig">
+        <div class = "conf-header">
+            <h1>Game Configuration</h1>
+            <button class = "close-btn" id = "closePVPConfig">&times;</button>
+        </div>
+        <div class="bottom-border"></div>
+        <div class = "conf-body">
+            <ul class = "set-menu">
+                <li class = "set-item">
+                    <label >Number of Cavities</label>
+                    <input type = "number" value=3 id="holes" class = "cavities-input" min = 3 max = 8>
+                </li>
+                <li class = "set-item">
+                    <label >Number of Seeds</label>
+                    <input type = "number" value = 4 id = "n_seeds" class = "seeds-input" >
+                </li>
+                <li class = "set-item">
+                    <label >Group</label>
+                    <input type = "number" value = 0 id = "group" class = "seeds-input">
+                </li>
+            </ul>
+        </div>
+
+        <button class="btn__grad" id="pvpstart">Start</button>
+
+        <!--onother div to darken the background when this popup is oppened-->
+    </div>
+
+    
 
     <!--Rules Popup-->
     <div class = "rules-popup" id = "rulesPopup">
