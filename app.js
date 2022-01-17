@@ -58,8 +58,8 @@ PVPconfigCloseBtn.onclick = function(){
 PVPstartBtn.onclick = function(){ 
     pvp = true;
     PVPconfig.style.display = "none";
-    let holes  = document.getElementById('holes').value;
-    let seeds = document.getElementById('n_seeds').value;
+    let holes  = document.getElementById('pvp_holes').value;
+    let seeds = document.getElementById('pvp_n_seeds').value;
     let group = document.getElementById("group").value;
     join(group,nick,pass,holes,seeds);
     startPVP();
@@ -179,6 +179,7 @@ function join(group, nick, password, size, initial){
         }
     }
 }
+
 function leave(nick, password, game){
     send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game}), 'leave');
 }
@@ -198,11 +199,15 @@ function notify(nick, password, game, move) {
 function send(jsonString, route) {
     if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
     const xhr = new XMLHttpRequest();
+    //xhr.withCredentials = true;
 
     //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
 
     xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,false);
 
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Access-Control-Request-Methods", "POST, GET");
+    xhr.setRequestHeader("Sec-Fetch-Site", "cross-site");
     xhr.send(jsonString);
 
     const res = JSON.parse(xhr.responseText);

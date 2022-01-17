@@ -2,7 +2,9 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
+const path = require('path');
 const crypto = require('crypto');
+const conf = require('./conf.js'); 
 
 // const hash = crypto
 //                .createHash('md5')
@@ -22,19 +24,23 @@ function saveCredentials(filename){
 
 
 const server = http.createServer(function (req, res) {
+    
     let path = url.parse(req.url, true);
     res.setHeader('Access-Control-Allow-Origin', '*'); //
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
     res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
     if(req.method === 'POST'){
-        console.log("Got Post");
+        console.log("Received Post");
         doPost(req,res, path);
     }
     else if(req.method === 'GET'){
-        doGet(req,res, path);
+        console.log("Received Get")
+        doGet(req,res);
     }
     else{
+        res.writeHead(501); 
         res.end();
     }
 
@@ -47,7 +53,6 @@ function doPost(req,res,path){
     req.on('data', chunk => {
         body += chunk.toString(); // convert Buffer to string
     });
-
 
     req.on('end', () => {
         switch(path.pathname){
@@ -67,9 +72,74 @@ function doPost(req,res,path){
 
 }
 
-function doGet(req,res, path){
-
+function doGet(request,response) {
+    const pathname = getPathname(request);
+    if(pathname === null) {
+        response.writeHead(403); // Forbidden
+        response.end();
+    } else 
+        console.log("pathname: ", pathname);
+        fs.stat(pathname,(err,stats) => {
+            if(err) {
+                response.writeHead(500); // Internal Server Error
+                response.end();
+            } else if(stats.isDirectory()) {
+                if(pathname.endsWith('/'))
+                   doGetPathname(pathname+conf.defaultIndex,response);
+                else {
+                   response.writeHead(301, // Moved Permanently
+                                      {'Location': pathname+'/' });
+                   response.end();
+                }
+            } else 
+                doGetPathname(pathname,response);
+       });    
 }
+
+function getPathname(request) {
+    const purl = url.parse(request.url);
+    let pathname = path.normalize(conf.documentRoot+purl.pathname);
+
+    if(! pathname.startsWith(conf.documentRoot))
+       pathname = null;
+
+    return pathname;
+}
+
+function doGetPathname(pathname,response) {
+    const mediaType = getMediaType(pathname);
+    const encoding = isText(mediaType) ? "utf8" : null;
+
+    fs.readFile(pathname,encoding,(err,data) => {
+    if(err) {
+        response.writeHead(404); // Not Found
+        response.end();
+    } else {
+        response.writeHead(200, { 'Content-Type': mediaType });
+        response.end(data);
+    }
+  });    
+}
+
+function getMediaType(pathname) {
+    const pos = pathname.lastIndexOf('.');
+    let mediaType;
+
+    if(pos !== -1) 
+       mediaType = conf.mediaTypes[pathname.substring(pos+1)];
+
+    if(mediaType === undefined)
+       mediaType = 'text/plain';
+    return mediaType;
+}
+
+function isText(mediaType) {
+    if(mediaType.startsWith('image'))
+      return false;
+    else
+      return true;
+}
+
 
 function write(filename, data){
     fs.writeFile(filename, JSON.stringify(data)+"\n",(err) => {
