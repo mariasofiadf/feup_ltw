@@ -23,11 +23,6 @@ var pass = "";
 
 var eventSource;
 
-var myTurn = false;
-
-gotNotifyResponse = false;
-
-
 openConf.onclick = function(){
     confPopUp.style.display = "block";
 }
@@ -113,6 +108,7 @@ var game;
 var cells = document.getElementsByClassName("cell");
 
 openScore.onclick = function(){
+    ranking();
     scorePopUp.style.display = "block";
 }
 
@@ -185,7 +181,31 @@ function leave(nick, password, game){
 }
 
 function ranking(){
-    send("{}", 'ranking');
+    const res = send("{}", 'ranking');
+    if(res != false){
+        rank = res['ranking'];
+        let scores = document.getElementById("scores");
+        scores.innerHTML = '<tr class="score-table-header"><th>Nick</th><th>Victories</th><th>Games</th></tr>';
+
+        for(var i = 0; i < rank.length; i++){
+            console.log('Entered');
+            let tr = document.createElement('tr');
+            tr.className = "score-elem";
+
+            let th1 = document.createElement('th');
+            th1.innerText = rank[i]['nick']
+            tr.appendChild(th1);
+
+            let th2 = document.createElement('th');
+            th2.innerText = rank[i]['victories'];            
+            tr.appendChild(th2);
+
+            let th3 = document.createElement('th');
+            th3.innerText = rank[i]['games'];            
+            tr.appendChild(th3);
+            scores.appendChild(tr);
+        }
+    }
 }
 
 function register(nick, password){
