@@ -211,8 +211,17 @@ function ranking(){
 
 
 function register(nick, password){
-    let hashed = 
-    send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
+    //let hashed = 
+    if(send(JSON.stringify({ 'nick': nick, 'password': password}), 'register') != false)
+    {
+        let leaveBtn = document.createElement('div');
+        leaveBtn.className = "footer_btn_container";
+        leaveBtn.innerHTML = '<button class="btn__grad"  id = "leaveBtn" >Leave</button>';
+        let footer = document.getElementById('footer');
+        footer.appendChild(leaveBtn);
+    }
+
+    
 }
 
 function notify(nick, password, game, move) {
