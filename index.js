@@ -6,19 +6,18 @@ const path = require('path');
 const crypto = require('crypto');
 const conf = require('./conf.js'); 
 
-// const hash = crypto
-//                .createHash('md5')
-//                .update(value)
-//                .digest('hex');
 
-let credentials = getCredentials("credentials.txt");
+let credentials_filename = "credentials.txt"
+let credentials = getCredentials(credentials_filename);
 
 function getCredentials(filename){
     let data = fs.readFileSync(filename,'utf8');
+    //fs.close();
     return JSON.parse(data.toString());
 }
 
 function saveCredentials(filename){
+    console.log(credentials);
     write(filename, credentials);
 }
 
@@ -56,20 +55,55 @@ function doPost(req,res,path){
 
     req.on('end', () => {
         switch(path.pathname){
-            case '/login':
+            case '/register':
                 let obj = JSON.parse(body)
-                if(login(obj.nick, obj.password))
+                if(register(obj.nick, obj.password)){
                     res.writeHead(200, {'Content-Type': 'text/plain'});    
-                else
-                    res.writeHead(401, {'Content-Type': 'text/plain'});
-    
+                    res.write('{}\n');
+                }
+                else{
+                    res.writeHead(401, {'Content-Type': 'text/plain'}); 
+                    res.write(JSON.stringify({'error': "User registered with a different password"}));
+                }
                 break;
-            default:break;
+            default:
+                res.writeHead(501, {'Content-Type': 'text/plain'});    
+                
+            break;
         }
-        //console.log(body);
         res.end();
     });
 
+}
+
+function write(filename, data){
+	console.log("Writing credentials to : " + filename);
+    fs.writeFile(filename, JSON.stringify(data)+"\n",(err) => {
+        if(err) throw err;
+    });
+
+}
+
+
+function register(nick, pass){
+    const hash = crypto
+               .createHash('md5')
+               .update(pass)
+               .digest('hex');
+    for(let i = 0; i < credentials.length; i++)
+    {
+        if(credentials[i].nick == nick && credentials[i].pass == hash){
+            console.log(nick + " logged in.\n");
+            return true;
+        }else if(credentials[i].nick == nick && credentials[i].pass != hash){
+            console.log("Someone tried to log into " + nick + "'s account with the wrong password");
+            return false;
+        }
+    }   
+    credentials.push({'nick': nick, 'pass': hash});
+    saveCredentials(credentials_filename);
+    console.log("New user, " + nick + " registered");
+    return true;
 }
 
 function doGet(request,response) {
@@ -138,46 +172,4 @@ function isText(mediaType) {
       return false;
     else
       return true;
-}
-
-
-function write(filename, data){
-    fs.writeFile(filename, JSON.stringify(data)+"\n",(err) => {
-        if(err) throw err;
-    });
-
-}
-
-function read(filename){
-    fs.readFile(filename,'utf8',function(err,read) {
-        if(! err) {
-            try{ 
-                data = JSON.parse(read.toString());
-                console.log(data);
-                return data;
-            }
-            catch (err) {console.log("Error parsing read data")}
-            // processar dados
-            
-        }
-
-    });
-}
-
-function register(nick, pass){
-    credentials.push({'nick': nick, 'pass': pass});
-    saveCredentials("newcredentials.txt");
-}
-
-
-function login(nick, pass){
-    for(let i = 0; i < credentials.length; i++)
-    {
-        if(credentials[i].nick == nick && credentials[i].pass == pass){
-            console.log(nick + " logged in.\n");
-            return true;
-        }
-    }   
-    console.log("Someone tried to log into " + nick + "'s account with the wrong password");
-    return false;
 }

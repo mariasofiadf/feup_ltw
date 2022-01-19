@@ -11,9 +11,9 @@ var PVPstartBtn = document.getElementById("pvpstart");
 
 var leaveBtn = document.getElementById("leaveBtn");
 
-var host = "twserver.alunos.dcc.fc.up.pt";
-host = "localhost";
-var port = 8991;
+var host ="http://twserver.alunos.dcc.fc.up.pt:8008/";
+host = "http://twserver.alunos.dcc.fc.up.pt:8991/";
+
 
 var gameID = 0;
 
@@ -132,8 +132,8 @@ function startPVP(){
     const oldBoard  = document.getElementById('board');
     oldBoard.innerHTML = '';
 
-    const holes  = document.getElementById('holes').value;
-    const seeds = document.getElementById('n_seeds').value;
+    const holes  = document.getElementById('pvp_holes').value;
+    const seeds = document.getElementById('pvp_n_seeds').value;
     game = new Game(seeds, holes, 0, true);
     game.draw();
 }
@@ -208,7 +208,10 @@ function ranking(){
     }
 }
 
+
+
 function register(nick, password){
+    let hashed = 
     send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
 }
 
@@ -219,11 +222,10 @@ function notify(nick, password, game, move) {
 function send(jsonString, route) {
     if(!XMLHttpRequest) { console.log("XHR não é suportado"); return; }
     const xhr = new XMLHttpRequest();
-    //xhr.withCredentials = true;
 
     //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
 
-    xhr.open('POST','http://twserver.alunos.dcc.fc.up.pt:8008/'+route,false);
+    xhr.open('POST',host+route,false);
 
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.setRequestHeader("Access-Control-Request-Methods", "POST, GET");
