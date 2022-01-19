@@ -10,6 +10,12 @@ const conf = require('./conf.js');
 let credentials_filename = "credentials.txt"
 let credentials = getCredentials(credentials_filename);
 
+let ranking = {'ranking' : 
+            [ {'nick': 'maria', 'victories': 11, 'games': 20},
+            {'nick': 'rita' , 'victories': 9 , 'games': 20} ]
+}
+
+
 function getCredentials(filename){
     let data = fs.readFileSync(filename,'utf8');
     //fs.close();
@@ -56,7 +62,7 @@ function doPost(req,res,path){
     req.on('end', () => {
         switch(path.pathname){
             case '/register':
-                let obj = JSON.parse(body)
+                let obj = JSON.parse(body);
                 if(register(obj.nick, obj.password)){
                     res.writeHead(200, {'Content-Type': 'text/plain'});    
                     res.write('{}\n');
@@ -66,9 +72,12 @@ function doPost(req,res,path){
                     res.write(JSON.stringify({'error': "User registered with a different password"}));
                 }
                 break;
+            case '/ranking':
+                res.writeHead(200, {'Content-Type': 'text/plain'}); 
+                res.write(JSON.stringify(ranking));
+                break;
             default:
                 res.writeHead(501, {'Content-Type': 'text/plain'});    
-                
             break;
         }
         res.end();
