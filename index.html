@@ -15,6 +15,7 @@
     <nav class="navbar">
         <div class = "navbar__container">
             <u class = "navbar__logo">Mancala  </u>
+            <input type = "text" value = "http://twserver.alunos.dcc.fc.up.pt:8008/" id="host">
             <ul class = "navbar__menu">
                 <li class = "navbar__item">
                     <button class="navbar-btn" id="rules">Rules</button >
@@ -34,7 +35,7 @@
 
    
 
-    <div class = "body-container">      
+    <div class = "body-container" id='body-container'>      
         <!--LOGIN BOX-->
         <div class="login-wrap" id ="login">
                 <div class = "login-header">
@@ -44,14 +45,12 @@
                 
                 <div class="wrap-input validate-input" >
                     <label for="nick"></label>
-                    <input class="input" placeholder="Email" type="text" name = "nick" id="nick">
-                    <!--<span class="focus-input100" data-placeholder="Email"></span>-->
+                    <input class="input" placeholder="nick" type="text" name = "nick" id="nick">
                 </div>
 
                 <div class="wrap-input" data-validate="Enter password">
                     <label for="pass"></label>
                     <input class="input" placeholder="Password" type="password" name="pass" id="pass"> 
-                    <!--<span class="focus-input100" data-placeholder="Password"></span>-->
                 </div>
                 <div class="login-btn-container">
                         <button  class="btn__grad" id="submitLogin" >Login</button>
@@ -66,10 +65,19 @@
  
 
         <!--BOARD-->
+        <p id = "info-txt"></p>
         <div class = "main-container" >
             <div class="board" id = "board"></div>
         </div>
         
+    </div>
+
+    <div class="login-wrap" id="alertPopup" >
+        
+        <div class = "login-header">
+            <div class="login-txt" id="alertText">Welcome</div>
+            <button class = "close-btn" id = "closeAlert">&times;</button>
+        </div>
     </div>
 
      <!--Game Configuration-->
@@ -166,10 +174,20 @@
 
     <div class = "footer">
         <div class="footer-title">Welcome to Mancala</div>
-        <div class="footer_btn_container">
-            <button class="btn__grad"  id = "openLogin" >Login</button>
-            <button class="btn__grad"  id = "leaveBtn" >Leave</button>
+        <div class ="navbar__menu" id="footer">
+
+            <div class="footer_btn_container footer-title" >
+                <button class="btn__grad"  id ="loggedNick" style="display: none;"></button>
+            </div>
+
+            <div class="footer_btn_container">
+                <button class="btn__grad"  id = "openLogin" >Login</button>
+            </div>
+            <!-- <div class="footer_btn_container">
+                <button class="btn__grad"  id = "leaveBtn" >Leave</button>
+            </div> -->
         </div>
+
     </div>
 </body>
 
