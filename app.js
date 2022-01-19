@@ -9,10 +9,13 @@ var PVPconfig = document.getElementById("pvpconfig");
 var PVPconfigCloseBtn = document.getElementById("closePVPConfig");
 var PVPstartBtn = document.getElementById("pvpstart");
 
+var infoTxt = document.getElementById("info-txt");
+
+
 var leaveBtn = document.getElementById("leaveBtn");
 
 var host ="http://twserver.alunos.dcc.fc.up.pt:8008/";
-host = "http://twserver.alunos.dcc.fc.up.pt:8991/";
+//host = "http://twserver.alunos.dcc.fc.up.pt:8991/";
 
 
 var gameID = 0;
@@ -21,7 +24,12 @@ var pvp = false;
 var nick = "";
 var pass = "";
 
+var turn = "---";
+
 var eventSource;
+
+window.onload = function(){
+}
 
 openConf.onclick = function(){
     confPopUp.style.display = "block";
@@ -66,6 +74,7 @@ var openLogin = document.getElementById("openLogin");
 var loginPopup = document.getElementById("login");
 var submitLogin = document.getElementById("submitLogin");
 var closeLogin  = document.getElementById("closeLogin");
+var loggedNick = document.getElementById("loggedNick");
 
 openLogin.onclick = function(){ 
     loginPopup.style.display = "block";
@@ -74,13 +83,15 @@ openLogin.onclick = function(){
 submitLogin.onclick = function(){
     nick = document.getElementById('nick').value;
     pass = document.getElementById('pass').value;
-    register(nick,pass);
+    if(register(nick,pass) != false){
+        loginPopup.style.display = "none";
+        openLogin.style.display="none";
+        loggedNick.innerText = "Logged in as " + nick;
+        loggedNick.style.display="block";
+    }   
 }
 
-leaveBtn.onclick = function(){
-    leave(nick,pass,gameID);
-    eventSource.close()
-}
+
 
 closeLogin.onclick = function(){ 
     loginPopup.style.display = "none";
@@ -116,6 +127,22 @@ closeScore.onclick = function(){
     scorePopUp.style.display = "none";
 }
 
+//Alert popup
+var closeAlert  = document.getElementById("closeAlert");
+var alertPopup = document.getElementById("alertPopup");
+var alertText = document.getElementById("alertText");
+
+closeAlert.onclick = function(){ 
+    alertPopup.style.display = "none";
+}
+
+function createPopupAlert(text){
+    alertPopup.style.display = "block";
+    alertText.innerText = text;
+    setTimeout(() => {
+        alertPopup.style.display = "none";
+    }, 3000);
+}
 
 function startGame(){
     const oldBoard  = document.getElementById('board');
@@ -131,6 +158,7 @@ function startGame(){
 function startPVP(){
     const oldBoard  = document.getElementById('board');
     oldBoard.innerHTML = '';
+    pvp = true;
 
     const holes  = document.getElementById('pvp_holes').value;
     const seeds = document.getElementById('pvp_n_seeds').value;
@@ -170,14 +198,31 @@ function join(group, nick, password, size, initial){
             }
             else if(data.board != null){
                 updateBoard(data.board);
+                turn = data.board.turn;
+                infoTxt.innerText="It's "+ turn + "'s turn.";
             }
             console.log(data);
         }
+
+        let leaveBtn = document.createElement('div');
+        leaveBtn.className = "footer_btn_container";
+        leaveBtn.innerHTML = '<button class="btn__grad"  id = "leaveBtn" >Leave</button>';
+        let footer = document.getElementById('footer');
+        footer.appendChild(leaveBtn);
+        leaveBtn.onclick = function(){
+            leave(nick,pass,gameID);
+            eventSource.close()
+        }
+
+        infoTxt.innerText="Waiting for opponent";
     }
 }
 
 function leave(nick, password, game){
     send(JSON.stringify({ 'nick': nick, 'password': password, 'game':game}), 'leave');
+
+    const oldBoard  = document.getElementById('board');
+    oldBoard.innerHTML = '';
 }
 
 function ranking(){
@@ -208,19 +253,13 @@ function ranking(){
     }
 }
 
-
-
 function register(nick, password){
-    //let hashed = 
-    if(send(JSON.stringify({ 'nick': nick, 'password': password}), 'register') != false)
+    let res = send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
+    if (res != false)
     {
-        let leaveBtn = document.createElement('div');
-        leaveBtn.className = "footer_btn_container";
-        leaveBtn.innerHTML = '<button class="btn__grad"  id = "leaveBtn" >Leave</button>';
-        let footer = document.getElementById('footer');
-        footer.appendChild(leaveBtn);
+        createPopupAlert("Logged in! Welcome, " + nick);
     }
-
+    return res;
     
 }
 
@@ -245,9 +284,11 @@ function send(jsonString, route) {
 
     if(xhr.status == 200)
         return res;
-    alert(res.error);  
+    createPopupAlert(res.error);
     return false;
 }
+
+
 
 
 class AI {
@@ -321,9 +362,14 @@ class Game{
     execPlay(r, c){
         let playAgain = false;
         if(pvp){
+            if(turn != nick){
+                if(turn == "")
+                    createPopupAlert("Not your turn!");
+                else createPopupAlert("Waiting for opponent...");
+                return;
+            }
             if(!notify(nick, pass, gameID, c))
                 return;
-            //playAgain = this.board.executePlay(r, c);
             
         }
         else{
