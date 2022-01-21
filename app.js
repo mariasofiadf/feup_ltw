@@ -9,14 +9,17 @@ var PVPconfig = document.getElementById("pvpconfig");
 var PVPconfigCloseBtn = document.getElementById("closePVPConfig");
 var PVPstartBtn = document.getElementById("pvpstart");
 
+var changeServerBtn = document.getElementById("change-server");
+
 var infoTxt = document.getElementById("info-txt");
 
 
 var leaveBtn = document.getElementById("leaveBtn");
 
-var host ="http://twserver.alunos.dcc.fc.up.pt:8008/";
-//host = "http://twserver.alunos.dcc.fc.up.pt:8991/";
-
+var host ="http://twserver.alunos.dcc.fc.up.pt";
+var ltwServerPort = 8008;
+var groupServerPort = 9091;
+var port = ltwServerPort;
 
 var gameID = 0;
 
@@ -66,6 +69,16 @@ PVPstartBtn.onclick = function(){
     let group = document.getElementById("group").value;
     join(group,nick,pass,holes,seeds);
     startPVP();
+}
+
+changeServerBtn.onclick = function(){
+    let serverInput  = document.getElementById('host').value;
+    console.log(serverInput);
+    if(serverInput == 'Group Server')
+        port = groupServerPort;
+    else
+        port = ltwServerPort;
+    createPopupAlert("Changed to " + serverInput);
 }
 
 
@@ -273,7 +286,7 @@ function send(jsonString, route) {
 
     //xhr.open('POST','http://'+host+':'+port+'/'+route,true);
 
-    xhr.open('POST',host+route,false);
+    xhr.open('POST',host + ":"+ port+"/" +route,false);
 
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.setRequestHeader("Access-Control-Request-Methods", "POST, GET");
@@ -363,9 +376,10 @@ class Game{
         let playAgain = false;
         if(pvp){
             if(turn != nick){
-                if(turn == "")
+                if(turn != "")
                     createPopupAlert("Not your turn!");
-                else createPopupAlert("Waiting for opponent...");
+                else 
+                    createPopupAlert("Waiting for opponent...");
                 return;
             }
             if(!notify(nick, pass, gameID, c))

@@ -15,8 +15,15 @@
     <nav class="navbar">
         <div class = "navbar__container">
             <u class = "navbar__logo">Mancala  </u>
-            <input type = "text" value = "http://twserver.alunos.dcc.fc.up.pt:8008/" id="host">
             <ul class = "navbar__menu">
+                <li class = "navbar__item navbar-btn">
+                    <input list="hosts" name="host" id="host" placeholder="Pick server">
+                    <datalist id="hosts">
+                        <option value="Group Server">
+                        <option value="LTW Server">
+                    </datalist>
+                    <button class="navbar-btn" id="change-server">Change Server</button >
+                </li>
                 <li class = "navbar__item">
                     <button class="navbar-btn" id="rules">Rules</button >
                 </li>

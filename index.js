@@ -6,8 +6,9 @@ const path = require('path');
 const crypto = require('crypto');
 const conf = require('./conf.js'); 
 
+port = 9091;
 
-let credentials_filename = "credentials.txt"
+let credentials_filename = "credentials.txt";
 let credentials = getCredentials(credentials_filename);
 
 let ranking = {'ranking' : 
@@ -51,7 +52,7 @@ const server = http.createServer(function (req, res) {
 
 });
 
-server.listen(8991);
+server.listen(port);
 
 function doPost(req,res,path){
     let body = '';
