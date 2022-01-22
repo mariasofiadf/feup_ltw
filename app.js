@@ -257,7 +257,7 @@ function register(nick, password){
     let res = send(JSON.stringify({ 'nick': nick, 'password': password}), 'register');
     if (res != false)
     {
-        createPopupAlert("Logged in! Welcome, " + nick);
+        //createPopupAlert("Logged in! Welcome, " + nick);
     }
     return res;
     
