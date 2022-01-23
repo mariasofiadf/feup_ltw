@@ -9,11 +9,11 @@ var PVPconfig = document.getElementById("pvpconfig");
 var PVPconfigCloseBtn = document.getElementById("closePVPConfig");
 var PVPstartBtn = document.getElementById("pvpstart");
 
-var changeServerBtn = document.getElementById("change-server");
+
+var ltwServerBtn = document.getElementById("change-to-ltw-server");
+var groupServerBtn = document.getElementById("change-to-group-server");
 
 var infoTxt = document.getElementById("info-txt");
-
-
 var leaveBtn = document.getElementById("leaveBtn");
 
 var host ="http://twserver.alunos.dcc.fc.up.pt";
@@ -50,7 +50,7 @@ closeConf.onclick = function(){
 PVPbtn.onclick = function(){
     if(nick == "")
     {
-        alert("Login first");
+        createPopupAlert("Login first");
         return;
     }
     PVPconfig.style.display = "block";
@@ -71,14 +71,34 @@ PVPstartBtn.onclick = function(){
     startPVP();
 }
 
-changeServerBtn.onclick = function(){
-    let serverInput  = document.getElementById('host').value;
-    console.log(serverInput);
-    if(serverInput == 'Group Server')
-        port = groupServerPort;
-    else
-        port = ltwServerPort;
-    createPopupAlert("Changed to " + serverInput);
+ltwServerBtn.onclick = function(){
+    if(port == ltwServerPort)
+        return;
+    port = ltwServerPort;
+    var ltwServerBtnContainer = document.getElementById("ltw-server-btn-container");
+    var ltwServerBtnE = document.getElementById("change-to-ltw-server");
+    ltwServerBtnContainer.className =  "navbar__item";
+    ltwServerBtnE.className = "navbar-btn";
+    var groupServerBtnContainer = document.getElementById("group-server-btn-container");
+    var groupServerBtnE = document.getElementById("change-to-group-server");
+    groupServerBtnContainer.className = "navbar__btn";
+    groupServerBtnE.className = "btn__grad";
+    createPopupAlert("Changed to group's server");
+}
+
+groupServerBtn.onclick = function(){
+    if(port == groupServerPort)
+        return;
+    port = groupServerPort;
+    var ltwServerBtnContainer = document.getElementById("ltw-server-btn-container");
+    var ltwServerBtnE = document.getElementById("change-to-ltw-server");
+    ltwServerBtnContainer.className = "navbar__btn";
+    ltwServerBtnE.className = "btn__grad";
+    var groupServerBtnContainer = document.getElementById("group-server-btn-container");
+    var groupServerBtnE = document.getElementById("change-to-group-server");
+    groupServerBtnContainer.className = "navbar__item";
+    groupServerBtnE.className = "navbar-btn";
+    createPopupAlert("Changed to group's server");
 }
 
 
@@ -207,7 +227,7 @@ function join(group, nick, password, size, initial){
         eventSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
             if(data.winner != null){
-                alert(data.winner + " wins!");
+                createPopupAlert(data.winner + " wins!");
             }
             else if(data.board != null){
                 updateBoard(data.board);
@@ -223,6 +243,8 @@ function join(group, nick, password, size, initial){
         let footer = document.getElementById('footer');
         footer.appendChild(leaveBtn);
         leaveBtn.onclick = function(){
+            infoTxt.innerText = "";
+            this.remove();
             leave(nick,pass,gameID);
             eventSource.close()
         }
@@ -366,7 +388,7 @@ function updateBoard(serverBoard){
 
 class Game{
     constructor(seeds, holes, ai_diff, pvp = false){
-        this.board = new Board(holes, seeds);;
+        this.board = new Board(holes, seeds);
         this.player = 1;
         this.pvp = pvp;
         this.ai = new AI(this.board, holes, seeds, ai_diff);
@@ -398,7 +420,15 @@ class Game{
             this.player = 1;
             
             if(this.checkEnd()){
-                console.log("Game Ended");
+                if(this.board.storesSeeds[0] > this.board.storesSeeds[1]){
+                    createPopupAlert("Game Ended!\n AI wins");
+                }
+                if(this.board.storesSeeds[0] < this.board.storesSeeds[1]){
+                    createPopupAlert("Game Ended!\n You win");
+                }
+                else if (this.board.storesSeeds[0] == this.board.storesSeeds[1]){
+                    createPopupAlert("Game Ended with a draw...");
+                }
                 return -1;
             }
         }
