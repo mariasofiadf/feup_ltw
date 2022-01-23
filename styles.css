@@ -354,4 +354,9 @@
   color: #333333;
   line-height: 1.5;
 }
-  
+  .info-txt{
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    padding-top: 1%;
+  }
