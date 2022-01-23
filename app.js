@@ -161,13 +161,9 @@ closeScore.onclick = function(){
 }
 
 //Alert popup
-var closeAlert  = document.getElementById("closeAlert");
 var alertPopup = document.getElementById("alertPopup");
 var alertText = document.getElementById("alertText");
 
-closeAlert.onclick = function(){ 
-    alertPopup.style.display = "none";
-}
 
 function createPopupAlert(text){
     alertPopup.style.display = "block";
