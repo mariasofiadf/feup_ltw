@@ -27,7 +27,7 @@ var pvp = false;
 var nick = "";
 var pass = "";
 
-var turn = "---";
+var turn = "";
 
 var eventSource;
 
