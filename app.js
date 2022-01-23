@@ -114,9 +114,10 @@ openLogin.onclick = function(){
 }
 
 submitLogin.onclick = function(){
-    nick = document.getElementById('nick').value;
-    pass = document.getElementById('pass').value;
-    if(register(nick,pass) != false){
+    let tempnick = document.getElementById('nick').value;
+    let temppass = document.getElementById('pass').value;
+    if(register(tempnick,temppass) != false){
+        nick = tempnick; pass = temppass;
         loginPopup.style.display = "none";
         openLogin.style.display="none";
         loggedNick.innerText = "Logged in as " + nick;
