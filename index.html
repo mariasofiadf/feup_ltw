@@ -15,8 +15,16 @@
     <nav class="navbar">
         <div class = "navbar__container">
             <u class = "navbar__logo">Mancala  </u>
-            <input type = "text" value = "http://twserver.alunos.dcc.fc.up.pt:8008/" id="host">
             <ul class = "navbar__menu">
+
+                
+                <li class = "navbar__item" id = "ltw-server-btn-container">
+                    <button class="navbar-btn" id="change-to-ltw-server">LTW Server</button >
+                </li>
+                <li class = "navbar__btn" id = "group-server-btn-container">
+                    <button class="btn__grad" id="change-to-group-server">Group Server</button>
+                </li>
+
                 <li class = "navbar__item">
                     <button class="navbar-btn" id="rules">Rules</button >
                 </li>
@@ -73,7 +81,6 @@
     </div>
 
     <div class="login-wrap" id="alertPopup" >
-        
         <div class = "login-header">
             <div class="login-txt" id="alertText">Welcome</div>
             <button class = "close-btn" id = "closeAlert">&times;</button>
