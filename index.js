@@ -32,10 +32,10 @@ function saveCredentials(filename){
 const server = http.createServer(function (req, res) {
     
     let path = url.parse(req.url, true);
+    res.setHeader('Access-Control-Allow-Headers', 'access.control-allow-origin,access-control-request-methods'); // If needed
+    res.setHeader('Access-Control-Allow-Max-Age', '86400'); //
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // If needed
     res.setHeader('Access-Control-Allow-Origin', '*'); //
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
 
     if(req.method === 'POST'){
         console.log("Received Post");
@@ -44,6 +44,10 @@ const server = http.createServer(function (req, res) {
     else if(req.method === 'GET'){
         console.log("Received Get")
         doGet(req,res);
+    }
+    else if(req.method === 'OPTIONS'){
+        res.writeHead(204);
+        res.end();
     }
     else{
         res.writeHead(501); 
